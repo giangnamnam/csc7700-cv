@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{   rmargin=1in
+            ,lmargin=1in
+            ,tmargin=1in
+            ,bmargin=1in
+         }
+
+\begin{document}
+
+\section{Team}
+
+\begin{itemize}
+ \item Team name: Context-free
+ \item Team members: Kevin Cherry, Robert Firth, Dennis Castleberry
+ \item Responsibilities: 
+\end{itemize}
+
+\section{Problem Statement}
+
+\subsection{Problem definition}
+
+Self-driving vehicles rely heavily on computer vision algorithms for efficient
+detection of signs, lane markings, pedestrians, and other vehicles.  With
+respect to pedestrian crosswalk and child crossing sign detection, the
+efficiency and accuracy of these algorithms is imperative to minimize
+pedestrian casualties. Thus, ...
+
+\subsection{Overview of the framework and algorithm}
+
+\textbf{SURF} will be used to detect sign edges efficiently.  SURF (speeded-up
+robust feature) is a combined detector and descriptor; the detector is based
+off the Hessian matrix (used for detecting curvature of edges) and the
+descriptor is based off SIFT (scale-invariant feature transform).
+
+\section{Project Description}
+
+\subsection{Goal}
+
+Our proposed goal is to improve the efficiency and accuracy of 
+pedestrian crosswalk and child crossing sign detection.
+
+\subsection{Objectives}
+
+\begin{itemize}
+ \item Resolve inaccuracies and ineffiencies in existing sign detection implementations
+ \item Broaden the scope of detected objects which could minimize civilian casualties
+\end{itemize}
+
+\subsection{Tasks}
+
+We will first run existing sign detection implementations against our data set
+to isolate inaccuracies and inefficiencies in them.  Using our observations
+from these runs, we will incrementally improve the implementations to resolve
+said inaccuracies and inefficiencies and broaden the scope of the detected
+objects. Finally, we will run the original and improved implementations
+against a new data set and compare the differences in accuracy and efficiency. 
+
+\subsection{Data}
+
+We will capture video from areas dense in pedestrian crosswalk and child
+crossing signs in a variety of weather conditions (normal weather, nighttime,
+light and heavy rain); then segment the video to isolate the target objects.
+We require two data sets; one to explore existing implementations and make
+incremental improvements, and a second to test the improved implementation.
+
+\subsection{Resources}
+
+Because of the need for real-time detection, the detection system must not be
+computationally expensive. Therefore, laptop computers will be used to test the
+feasibility of the system (~1.4 GHz dual-core with ~4 GB memory).
+
+\end{document}
