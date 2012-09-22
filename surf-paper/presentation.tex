@@ -1,0 +1,185 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usetheme{Copenhagen}
+\usecolortheme[named=Black]{structure}
+
+\title{SURF: Speeded-Up Robust Features}
+\author{Castleberry, Cherry, and Firth}
+
+\begin{document}
+
+% Camera calibration and object recognition.
+\section{Introduction and Overview}
+\subsection{Motivation}
+\frame{ \frametitle{Motivation}
+\begin{itemize}
+ \item The motivation is to facilitate advances in:
+ \begin{itemize}
+  \item Image registration
+  \item Camera calibration 
+  \item Object recognition
+  \item Image retrieval 
+ \end{itemize} 
+\end{itemize} 
+}
+
+\subsection{Problem Definition}
+\frame{ \frametitle{Problem Definition}
+\begin{itemize}
+ \item The problem is to efficiently and accurately find point correspondences between two images depicting the same scene, thereby enabling camera calibration and object recognition.
+ \item The problem solution is subdivided into three stages:
+ \begin{itemize}
+  \item \textbf{Detection}: identify points of interest. The most important aspect of a detector is its repeatability.
+  \item \textbf{Description}: create a vector which holds data about the feature(s). It should be simple (low-dimensional) to facilitate efficient matching but complex enough to adequately describe the feature.
+  \item \textbf{Matching}: match the feature vectors across images. The matching is based on a distance measure between the two feature vectors (such as the \hyperlink{math-distance}{\beamergotobutton{Mahalanobis or Euclidean distance}}).
+ \end{itemize} 
+\end{itemize} 
+}
+
+\frame{ \frametitle{Problem Definition}
+\begin{itemize}
+ \item The goal is to develop a detector and descriptor which, in comparison to the state-of-the-art detectors and descriptors of the day, are computationally inexpensive but do not sacrifice performance (accuracy of matches).
+ \item The focus is on scale and in-plane rotation invariant detectors and descriptors. The descriptor is robust enough to handle skew, anisotropic scaling (stretching), and perspective effects.
+ \item The handling of photometric deformations is limited to bias (offset, or brightness changes) and contrast changes (by a scale factor).
+\end{itemize} 
+}
+
+\subsection{Previous Work}
+\frame{ \frametitle{Previous Work}
+ \begin{itemize}
+  \item Harris 
+  \item Lindeberg 
+  \item Mikolajczyk and Schmid
+  \item Lowe
+  \item Kadir and Brady
+  \item Jurie and Schmid
+ \end{itemize} 
+}
+
+\subsection{Background}
+\frame{ \frametitle{Background}
+ \begin{itemize}
+  \item A \hyperlink{math-hessian}{\beamergotobutton{Hessian-matrix}} approximation is used for interest point detection. The approximation is made possible by \hyperlink{math-integral}{\beamergotobutton{integral images}} as popularized by Voila and Jones ~\ref{ref:voila}.
+  \item The Hessian matrix is used to detect blob-like structures wherever the \hyperlink{math-determinant}{\beamergotobutton{determinant}} is maximum.
+  \item The second-order partial derivatives used in the Hessian matrix are approximated using \emph{box filters}. The box filters are evaluated using integral images.
+ \end{itemize} 
+}
+
+\section{Description of the Method}
+\subsection{Techniques Used}
+\frame{ \frametitle{Hessian Approximation}
+ \begin{itemize} 
+  \item A \hyperlink{math-hessian}{\beamergotobutton{Hessian Matrix}} is approximated using box filters. The box filters are approximations of second-order derivatives of Gaussians within a rectangular region. These approximations are efficiently computed using \hyperlink{math-integral}{\beamergotobutton{integral images}}.
+  \item The determinant of the Hessian matrix is approximated using the box filters:
+\begin{equation}
+  det_{approx}(\mathcal{H}) = D_{xx} D_{yy} - (wD_{xy})^2
+\end{equation}
+  \item where $w$ is a weight needed to adjust for the difference between the approximated and actual Gaussian.
+  \end{itemize}
+}
+
+\frame{ \frametitle{Hessian Determinant Approximation}
+ \begin{itemize} 
+  \item $w$ for an $n$x$n$ box filter approximating a Gaussian with $\sigma$ is equal to:
+ \begin{equation}
+  \frac{|L_{xy}(\sigma)|_F |D_{yy}(n)|_F}
+       {|L_{yy}(\sigma)|_F |D_{xy}(n)|_F}
+ \end{equation}
+ where $|x|_F$ is the
+ \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
+ \item The $det_{approx}$ represents a \emph{blob response} in $I$ at $\mathbf{x}$. $det_{approx}$ for all locations $\mathbf{x}$ in the image gives a \emph{blob response map}. Local maxima are detected to give the locations of blobs.
+ \end{itemize} 
+}
+
+\subsection{Method}
+\frame{ \frametitle{Method}
+}
+
+\subsection{Data}
+\frame{ \frametitle{Data}
+}
+
+\subsection{Experimental Setup}
+\frame{ \frametitle{Experimental Setup}
+}
+
+\section{Results, Discussion, and Conclusion}
+\subsection{Results}
+\frame{ \frametitle{Results}
+}
+
+\subsection{Discussion}
+\frame{ \frametitle{Discussion}
+}
+
+\subsection{Conclusion}
+\frame{ \frametitle{Conclusion}
+}
+
+\subsection{References}
+\frame{ \frametitle{References}
+}
+
+\section{Mathematical Appendix}
+\begin{frame}[label=math-determinant]{Determinant}
+The \textbf{determinant} of a matrix $A$ is defined as:
+ \begin{equation}
+  det(A) = \sum_{\sigma \subset S_n} sgn(\sigma)
+           \prod_{i=1}^{n} A_i,\sigma_i
+ \end{equation}
+If a parallelogram is represented by a matrix 
+$
+ \begin{bmatrix}
+   a &
+   b \\
+   c &
+   d \\
+ \end{bmatrix}
+$
+with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ gives the area of the parallelogram. Likewise the determinant of a parallelepiped gives its volume. 
+\end{frame}
+
+\begin{frame}[label=math-distance]{Euclidean and Mahalanobis Distances}
+ \textbf{Euclidean distance}: for two given points $p_i$ and $q_i$, the Euclidean distance is:
+  \begin{equation} \label{eq:euclidean}
+   d(x,y) = \sum_{i=0}^{N} \sqrt{(p_i-q_i)^2}.
+  \end{equation}
+ \textbf{Mahalanobis distance}: for a given multivariate vector $x = (x_1, x_2 \ldots x_n)$ the Mahalanobis distance from a group of values with mean $\mu = (\mu_1, \mu_2 \ldots \mu_n)$ is defined as:
+  \begin{equation} \label{eq:mahalanobis}
+   D_M(x) = \sqrt{(x-\mu)^TS^{-1}(x-\mu)}.
+  \end{equation}
+\end{frame}
+
+\begin{frame}[label=math-integral]{Integral Images}
+ The integral image $I_\Sigma(x)$ at a location $\mathbf{x} = (x, y)^T$ is the sum of pixels in the input image $I$ within a rectangular region formed by the origin and $\mathbf{x}$:
+ \begin{equation} \label{eq:integral}
+  \sum_{i=0}^{i\leq x} \sum_{j=0}^{j\leq y} I(i,j).
+ \end{equation}
+\end{frame}
+
+\begin{frame}[label=math-frobenius]{Frobenius Norm}
+The Frobenius norm $|A|_F$ of a matrix $A$ is simply defined as:
+\begin{equation}
+ \sqrt{\sum_{i=0}^n \sum_{j=0}^m A_{ij}^2}
+\end{equation}
+\end{frame}
+
+\begin{frame}[label=math-hessian]{Hessian Matrix}
+Given a point $\mathbf{x} = (x,y)$ in an image $I$, the Hessian matrix 
+\begin{equation}
+\mathcal{H}(\mathbf{x}, \sigma) =
+ \begin{bmatrix}
+  L_{xx}(x,\sigma) &
+  L_{xy}(x,\sigma) \\
+  L_{xy}(x,\sigma) &
+  L_{yy}(x,\sigma) 
+ \end{bmatrix}
+\end{equation}
+where $L_{xx}(x,y)$ is the convolution of the Gaussian second-order derivative 
+$\frac{\partial^2}{\partial x^x}g(\sigma)$ with the image $I$ in point $\mathbf{x}$; similarly for 
+  $L_{xy}(x,\sigma)$ and
+  $L_{yy}(x,\sigma)$.
+\end{frame}
+
+\end{document}
