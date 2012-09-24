@@ -68,6 +68,10 @@
 
 \section{Description of the Method}
 \subsection{Techniques Used}
+\frame{ \frametitle{Techniques Used}
+}
+
+\subsection{Method}
 \frame{ \frametitle{Hessian Approximation}
  \begin{itemize} 
   \item A \hyperlink{math-hessian}{\beamergotobutton{Hessian Matrix}} is approximated using box filters. The box filters are approximations of second-order derivatives of Gaussians within a rectangular region. These approximations are efficiently computed using \hyperlink{math-integral}{\beamergotobutton{integral images}}.
@@ -92,8 +96,44 @@
  \end{itemize} 
 }
 
-\subsection{Method}
-\frame{ \frametitle{Method}
+\frame{ \frametitle{Scale Spaces}
+ \begin{itemize}
+  \item Interest points should be found at different scales. To represent the image at different scales, a \textbf{scale pyramid} is used. 
+  \item Rather than iteratively reducing the size of the image, the box filters are
+upscaled and computed, for which there is little additional computational cost. As a side effect of not downsampling the image, there is no \textbf{aliasing}. As a downside of this approach, up-scaled box filters can lose high-frequency components, which can limit scale-invariance.
+  \item A scale space is divided into \textbf{octaves}. 
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Octaves}
+ \begin{itemize}
+  \item An octave represents a series of filter response maps obtained by 
+\hyperlink{math-convolution}{\beamergotobutton{convolving}} the same input image with a filter of increasing size.  
+  \item The octave encompasses a scaling factor of 2. The pixel difference between scales of the image is at least one-third of the filter size (which is the size of the lobes in $D_{xx}$ or $D_{yy}$). For odd-$n$ filter sizes, a minimum of 2 pixels is required to guarantee a central pixel. In the case of a filter of size 9, this amounts to a difference of 6.
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Scale Interpolation}
+ \begin{itemize}
+  \item To localize interest points in the image over scales, non-maximum suppression in a 3x3x3 neighboorhood is applied (Neubeck and Van Gool).
+  \item The maxima of the determinant of the Hessian matrix are then interpolated in scale and image space (Brown et al).
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Interest Point Description}
+ \begin{itemize}
+  \item Similar to SIFT, the SURF describes the distribution of the intensity within the interest point neighoorhood, but with first-order \hyperlink{math:haar}{\beamergotobutton{Haar wavelet}} responses in the $x$ and $y$ dimensions rather than the gradient.
+  \item Also, integral images are exploited for efficiency, and only 64 dimensions are used.
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Orientation Assignment}
+ \begin{itemize}
+  \item For the interest points to be rotation-invariant, the orientation must be reproducible. Haar wavelet responses are calculated in the $x$ and $y$ directions within a circular neighboorhood of radius $6s$, where $s$ is the scale factor. 
+  \item Integral images are used for fast filtering. Only six operations are required to compute the Haar wavelet response in $x$ or $y$ for any $s$.
+  \item The Haar wavelet responses are weighted with a Gaussian ($\sigma = 2s$) centered at the interest point. They are represented as points ($x_{Haar}, y_{Haar}$) where $x_{Haar}$ represents the magnitude of the horizontal response and $y_{Haar}$ represents magnitude of the vertical response.
+  \item The circle is divided into slides of $\frac{pi}{3}$ and the Haar responses are summed for each slice to give a local orientation vector. 
+ \end{itemize} 
 }
 
 \subsection{Data}
@@ -122,6 +162,7 @@
 }
 
 \section{Mathematical Appendix}
+
 \begin{frame}[label=math-determinant]{Determinant}
 The \textbf{determinant} of a matrix $A$ is defined as:
  \begin{equation}
@@ -137,7 +178,39 @@ $
    d \\
  \end{bmatrix}
 $
-with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ gives the area of the parallelogram. Likewise the determinant of a parallelepiped gives its volume. 
+with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ gives the area of the parallelogram. Likewise the determinant of a matrix representing a parallelepiped yields the volume. 
+\end{frame}
+
+\begin{frame}[label=math-convolution]{Convolution}
+ The convolution is an integral transform on a function $f$ using a function $g$ and is defined as:
+ \begin{equation}
+  (f*g)(t) = \int_{\infty}^{-\infty} f(\tau) g(t-\tau) d\tau.
+ \end{equation}
+ The convolution gives the area of overlap between $f$ and $g$ for all values of the offset $t$.
+\end{frame}
+
+\begin{frame}[label=math-laplacian]{Laplacian}
+ The Laplacian operator, or $\nabla^2$, is defined as the $n$-dimensional vector:
+ \begin{equation}
+  \langle 
+   \frac{\partial}{\partial x_1},
+   \frac{\partial}{\partial x_2}, \ldots
+   \frac{\partial}{\partial x_n}
+  \rangle.
+ \end{equation}
+ The Laplacian of $f$, or $\nabla^2 f$, is thus defined as:
+ \begin{equation}
+  \sum_{i=1}^n \frac{\partial f}{\partial x_i};
+ \end{equation}
+ that is, the sum of the second-order partial derivatives of $f$.
+\end{frame}
+
+\begin{frame}[label=math-weierstrass]{Weierstrass Transform, or Gaussian Blur}
+ The 2-dimensional Gaussian function is defined as follows:
+ \begin{equation}
+  G(x) = \frac{1}{2 \pi \sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}},
+ \end{equation}
+ the graph of which takes the shape of a bell. When a Gaussian is used to convolute an image $I$, the new pixel at $I(x,y)$ becomes the weighted average of all pixels in its neighborhood, producing a smoothing or blurring effect.
 \end{frame}
 
 \begin{frame}[label=math-distance]{Euclidean and Mahalanobis Distances}
