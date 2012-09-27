@@ -1,35 +1,45 @@
-
 Related work - Interest Point Detection
+
 Harris corner detector
-	- uses eigen values of second moment matrix
+	- uses eigenvalues of second moment matrix
 	- not scale invariant
+
 Lindeburg
 	- introduced concept of automatic scale selection
 	- experimented with the determinant of the Hessian matrix and the Laplacian, to detect blob-like structures
+
 Mikolajczyk and Schmid
 	- refined Lindeburgs work
 	- scale invariant feature detection with high repeatability
 	- Harris-Laplace or Hessian-Laplace
 	- Used determinant of the Hessian matrix to select location, and Laplacian to select scale
+
 Lowe
 	- Used a Difference of Gaussians filter to approximate a Laplacian of Gaussians
+
 Kadir and Brady
 	- salient region detector, maximized entropy within the region
+
 Jurie and Schmid
 	- edge based region detector
+
 Kadir and Brady, and Jurie and Schmid seem less amenable to acceleration
-Conclusion from previous work: Hessian-based detectors are more stable and repeatable than their Harris-based counterparts. Also, approximations such as DoG
+Conclusion from previous work: Hessian-based detectors are more stable and repeatable than their Harris-based counterparts. Also, approximations such as DoG provide good speed with minimal loss in accuracy.
 
 Related Work - Interest Point Description
-Many interest point description techniques exist, including: Gaussian derivatives, moment invariants, complex features, steerable filters, phase-based local features, descriptors of the distribution smaller-scale features within the interest point neighborhood...
+
+Many interest point description techniques exist, including: Gaussian derivatives, moment invariants, complex features, steerable filters, phase-based local features...
 
 Lowe (SIFT)
 	- computes a histogram of local oriented gradients around the interest point and stores the bins in a 128-dimensional vector
+
 Ke and Sukthankar (PCA-SIFT)
 	- apply PCA to the gradient image around the interest point
-	- 36-dimensional descriptor vector is faster to matching but less distinctive than SIFT
+	- 36-dimensional descriptor vector is faster in matching but less distinctive than SIFT
 	- also proposes GLOH, but is similarly computationally expensive due to it's use of PCA
+
 Grabner
 	- used integral images to approximate SIFT
+
 More improvements to matching include: best bin first (Lowe), balltrees (Omohundro), vocabulary trees, locality sensitive hashing (Datar), and redundant bit vectors (Goldstein)
 	
