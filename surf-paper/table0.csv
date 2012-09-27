@@ -1,0 +1,8 @@
+Table 1.
+        Thresholds<comma> number of detected points and calculation time for the detectors in our comparison
+Detector,Threshold,Nb of points,Comp. time (ms)
+FH-15,60<comma>000,1813,160
+FH-9,50<comma>000,1411,70
+Hessian-Laplace,1000,1979,700
+Harris-Laplace,2500,1664,2100
+DoG,Default,1520,400

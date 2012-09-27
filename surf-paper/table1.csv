@@ -1,0 +1,8 @@
+Table 2.
+        Comparison of different interest point detectors for the application of camera calibration and 3D reconstruction
+Detector,Angle (°),Mean dist (pixels),SD (pixels)
+FH-15,88.5,1.14,1.23
+FH-9,88.4,1.64,1.78
+DoG,88.9,1.95,2.14
+Harris-Laplace,88.3,2.13,2.33
+Hessian-Laplace,91.1,2.85,3.13
