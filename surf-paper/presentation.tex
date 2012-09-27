@@ -230,6 +230,10 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
  The convolution gives the area of overlap between $f$ and $g$ for all values of the offset $t$.
 \end{frame}
 
+\begin{frame}
+\includegraphics[width=\textwidth]{imgs/convolution.jpg}
+\end{frame}
+
 \begin{frame}[label=math-laplacian]{Laplacian}
  The Laplacian operator, or $\nabla^2$, is defined as the $n$-dimensional vector:
  \begin{equation}
@@ -246,12 +250,35 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
  that is, the sum of the second-order partial derivatives of $f$.
 \end{frame}
 
+\begin{frame}
+ \begin{itemize} 
+ \item Suppose $f(x,y) = x^2 + y^2$. Then the Laplacian is:
+ \item $\frac{\partial^2}{\partial^2_x} 
+       (x^2 + y^2) +
+        \frac{\partial^2}{\partial^2_x} 
+       (x^2 + y^2) = 2+ 2 = 4$.
+ \vspace{16pt}  
+ \item Suppose $f(x,y) = x^2y^2$. Then the Laplacian is:
+ \item $\frac{\partial^2}{\partial^2_x} 
+       (x^2y^2) +
+        \frac{\partial^2}{\partial^2_x} 
+       (x^2y^2) = 2x^2 + 2y^2$.
+ \end{itemize} 
+\end{frame}
+
+
 \begin{frame}[label=math-weierstrass]{Weierstrass Transform, or Gaussian Blur}
  The 2-dimensional Gaussian function is defined as follows:
  \begin{equation}
   G(x) = \frac{1}{2 \pi \sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}},
  \end{equation}
  the graph of which takes the shape of a bell. When a Gaussian is used to convolute an image $I$, the new pixel at $I(x,y)$ becomes the weighted average of all pixels in its neighborhood, producing a smoothing or blurring effect.
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\includegraphics[width=\textwidth]{imgs/gauss.jpg}
+\end{center}
 \end{frame}
 
 \begin{frame}[label=math-distance]{Euclidean and Mahalanobis Distances}
@@ -265,11 +292,42 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
   \end{equation}
 \end{frame}
 
+\begin{frame}
+\begin{center}
+ \includegraphics[width=.5\textwidth]{imgs/ex_euc_dist-fw.png}
+ \includegraphics[width=.5\textwidth]{imgs/ex_mah_dist-fw.png}
+\end{center}
+\end{frame}
+
 \begin{frame}[label=math-integral]{Integral Images}
  The integral image $I_\Sigma(x)$ at a location $\mathbf{x} = (x, y)^T$ is the sum of pixels in the input image $I$ within a rectangular region formed by the origin and $\mathbf{x}$:
  \begin{equation} \label{eq:integral}
   \sum_{i=0}^{i\leq x} \sum_{j=0}^{j\leq y} I(i,j).
  \end{equation}
+\end{frame}
+
+\begin{frame}
+
+\begin{minipage}{.45\linewidth}
+ \begin{center}
+ \begin{tabular}{c|c|c}
+  1 & 2 & 1 \\ \hline
+  2 & 3 & 2 \\ \hline
+  1 & 2 & 1 \\ \hline
+ \end{tabular}
+ \end{center}
+\end{minipage}
+
+\begin{minipage}{.45\linewidth}
+ \begin{center}
+ \begin{tabular}{c|c|c}
+  1 & 2 & 1 \\ \hline
+  2 & 3 & 2 \\ \hline
+  1 & 2 & 1 \\ \hline
+ \end{tabular}
+ \end{center}
+\end{minipage}
+
 \end{frame}
 
 \begin{frame}[label=math-frobenius]{Frobenius Norm}
