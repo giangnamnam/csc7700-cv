@@ -35,11 +35,14 @@
   \item \textbf{Detection}: identify points of interest. The most important aspect of a detector is its repeatability.
   \item \textbf{Description}: create a vector which holds data about the feature(s). It should be simple (low-dimensional) to facilitate efficient matching but complex enough to adequately describe the feature.
   \item \textbf{Matching}: match the feature vectors across images. The matching is based on a distance measure between the two feature vectors (such as the \hyperlink{math-distance}{\beamergotobutton{Mahalanobis or Euclidean distance}}).
+  %ex_euc_dist.fw.png
+  %ex_mah_dist.fw.png
  \end{itemize} 
 \end{itemize} 
 }
 
 \frame{ \frametitle{Problem Definition}
+%ex_geo_photo_diffs.fw.png
 \begin{itemize}
  \item The goal is to develop a detector and descriptor which, in comparison to the state-of-the-art detectors and descriptors of the day, are computationally inexpensive but do not sacrifice performance (accuracy of matches).
  \item The focus is on scale and in-plane rotation invariant detectors and descriptors. The descriptor is robust enough to handle skew, anisotropic scaling (stretching), and perspective effects.
@@ -78,6 +81,8 @@ calculated on the image I(x,y), which facilitates the subsequent approximation o
 \hyperlink{math-determinant}{\beamergotobutton{determinant}} of the
 \hyperlink{math-hessian}{\beamergotobutton{Hessian matrix}} for the image 
 $(x,y)$ over its scale space. The scale space is constructed not by taking
+%eqn_basic_hessian.fw.png
+%ex_basic_hessian.fw.png
 \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}} of increasing scales
 and downsampling as in SIFT, but instead by convolving with the image box
 filters (of increasing size) which approximate the
@@ -124,6 +129,7 @@ point.
  \end{equation}
  where $|x|_F$ is the
  \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
+ %ex_frobenius_norm.fw.png
  \item The $det_{approx}$ represents a \emph{blob response} in $I$ at $\mathbf{x}$. $det_{approx}$ for all locations $\mathbf{x}$ in the image gives a \emph{blob response map}. Local maxima are detected to give the locations of blobs.
  \end{itemize} 
 }
