@@ -262,8 +262,8 @@ upscaled and computed, for which there is little additional computational cost. 
 \subsection{Data}
 \frame{ \frametitle{Data}
 \begin{itemize}
-  \item Standard testing data provided by Mikolajczyk, used to test detector and descriptor
-  \item Includes images of real textures and structured scenes, and different types of geometric and photometric transformations (varying viewpoint, zoom, rotation, lighting, blur...)
+  \item Standard testing data provided by Mikolajczyk, used to test detector and descriptor.
+  \item Includes images of real textures and structured scenes, and different types of geometric and photometric transformations (varying viewpoint, zoom, rotation, lighting, blur...).
   \item To test applying this to 3D reconstruction, two views of the same object are evaluated to measure the angle between two planes.
   \item For n-views 3D reconstruction, 13 input images of an old vase are used.
   \item For the application to object recognition, data is taken from the Caltech face, background, airplane, and motorcycle databases.
@@ -276,43 +276,58 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \section{Results, Discussion, and Conclusion}
 \subsection{Results}
-\frame{ \frametitle{Results}
-}
+
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results0.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results1.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results2.jpg}\end{center}}
+%\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results3.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results4.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results5.jpg}\end{center}}
+%\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results6.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results7.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results8.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results9.jpg}\end{center}}
+
 
 \subsection{Discussion}
 \frame{ \frametitle{Discussion}
 SURF vs SIFT
  \begin{itemize}
-  \item SURF uses 64-dimensional descriptor vector, SIFT is 128-dimensional
-  \item SIFT directly computes Gaussian convolution, requiring 25 multiplications and 24 additions to apply a 5x5 filter
-  \item SURF uses integral images to speed up the application of filters and only requires 10 addition and 2 subtractions to apply the derivative-of-gaussian filter
-  \item SIFT downscales image to move through scale space; SURF increases filter size
-  \item SURF requires a contant amount of computations to apply an arbitrary size filter
+  \item SURF uses 64-dimensional descriptor vector; SIFT is 128-dimensional.
+  \item SIFT directly computes Gaussian convolution, requiring 25 multiplications and 24 additions to apply a 5x5 filter.
+  \item SURF uses integral images to speed up the application of filters and only requires 10 addition and 2 subtractions to apply the derivative-of-gaussian filter.
+  \item SIFT downscales image to move through scale space; SURF increases filter size.
+  \item SURF requires a contant amount of computations to apply an arbitrary size filter.
  \end{itemize}
 }
 
 \subsection{Conclusion}
 \frame{ \frametitle{Conclusion}
+\begin{itemize} 
+\item Speeded-Up Robust Features is an approach for detecting, describing, and matching interest points found in an image in a computationally fast but robust way.
+\item The main metric of evaluation for detection is repeatability, which is the ability of an interest point to be detected under several varying circumstances.
+\item For description it is uniqueness and completeness and for matching it is mainly speed and accuracy.
+\end{itemize} 
+}
 
-  Speeded-Up Robust Features is an approach for detecting, describing, and matching interest points found in an image in a computationally fast but robust way.
-  The main metric of evaluation for detection is repeatability, which is the ability of an interest point to be detected under several varying circumstances.
-  For description it is uniqueness and completeness and for matching it is mainly speed and accuracy.
-  Several approximations are used including box filters and haar wavelets along with several concepts such as integral images, gradient sums, and fast indexing in an attempt to achieve greater efficiency overall, but not at the cost of performance.
-  Careful tradeoffs were made and evaluated in an effort to pick the best combinations of parameters and to push approximations even further.
-  Through all these techniques, SURF became faster and more accurate than previous methods, including SIFT, Difference of Gaussians, and Hessian-Laplace.
-
+\frame{ \frametitle{Conclusion}
+\begin{itemize} 
+\item Several approximations are used including box filters and haar wavelets along with several concepts such as integral images, gradient sums, and fast indexing in an attempt to achieve greater efficiency overall, but not at the cost of performance.
+\item Careful tradeoffs were made and evaluated in an effort to pick the best combinations of parameters and to push approximations even further.
+\item Through all these techniques, SURF became faster and more accurate than previous methods, including SIFT, Difference of Gaussians, and Hessian-Laplace.
+\end{itemize} 
 }
 
 \subsection{References}
 \frame{ \frametitle{References}
-
-  H. Bay et al. SURF: speeded up robust features. Computer Vision and Image Understanding 346-359. Elsevier. 2008.
-  http://www.wolframalpha.com/
-  http://stuffyoudontwant.com/sports-equipment/soccer-balls/
-  http://www.cs.ucf.edu/~mali/haar/
-  http://en.wikipedia.org/wiki/Scale_space
-  http://www.comp.nus.edu.sg/~cs4243/lecture/imageproc.pdf
-  
+\begin{itemize} 
+ \item H. Bay et al. SURF: speeded up robust features. Computer Vision and Image Understanding 346-359. Elsevier. 2008.
+ \item http://www.wolframalpha.com/
+ \item http://stuffyoudontwant.com/sports-equipment/soccer-balls/
+ \item http://www.cs.ucf.edu/~mali/haar/
+ \item http://en.wikipedia.org/wiki/Scale\_space
+ \item http://www.comp.nus.edu.sg/~cs4243/lecture/imageproc.pdf
+ \end{itemize}  
 }
 
 \section{Mathematical Appendix}
