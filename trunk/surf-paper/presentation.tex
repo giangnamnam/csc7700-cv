@@ -19,13 +19,19 @@
  \item The motivation is to facilitate advances in:
  \begin{itemize}
   \item Image registration
-  %cam_calibration.jpg
   \item Camera calibration
-  %obj_recognition.jpg
   \item Object recognition
   \item Image retrieval 
  \end{itemize} 
 \end{itemize} 
+}
+
+\frame{ \frametitle{} 
+ \includegraphics[width=\textwidth]{imgs/cam_calibration.jpg}
+}
+
+\frame{ \frametitle{} 
+ \includegraphics[width=\textwidth]{imgs/obj_recognition.jpg}
 }
 
 \subsection{Problem Definition}
@@ -37,12 +43,17 @@
   \item \textbf{Detection}: identify points of interest. The most important aspect of a detector is its repeatability.
   \item \textbf{Description}: create a vector which holds data about the feature(s). It should be simple (low-dimensional) to facilitate efficient matching but complex enough to adequately describe the feature.
   \item \textbf{Matching}: match the feature vectors across images. The matching is based on a distance measure between the two feature vectors (such as the \hyperlink{math-distance}{\beamergotobutton{Mahalanobis or Euclidean distance}}).
-  %detect_describe_match.png
  \end{itemize} 
 \end{itemize} 
 }
 
-%+ ex_geo_photo_diffs.fw.png
+\frame{ \frametitle{} 
+ \includegraphics[width=\textwidth]{imgs/detect_describe_match.png}
+}
+
+\frame{ \frametitle{} 
+ \includegraphics[width=\textwidth]{imgs/ex_geo_photo_diffs-fw.png}
+}
 
 \frame{ \frametitle{Problem Definition}
 \begin{itemize}
@@ -222,7 +233,7 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \frame{ \frametitle{Interest Point Description}
  \begin{itemize}
-  \item Similar to SIFT, the SURF describes the distribution of the intensity within the interest point neighoorhood, but with first-order \hyperlink{math:haar}{\beamergotobutton{Haar wavelet}} responses in the $x$ and $y$ dimensions rather than the gradient.
+  \item Similar to SIFT, the SURF describes the distribution of the intensity within the interest point neighoorhood, but with first-order \hyperlink{math-haar}{\beamergotobutton{Haar wavelet}} responses in the $x$ and $y$ dimensions rather than the gradient.
   \item Also, integral images are exploited for efficiency, and only 64 dimensions are used.
  \end{itemize} 
 }
@@ -411,7 +422,7 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
 \end{frame}
 
 
-\begin{frame}[label=math-weierstrass]{Weierstrass Transform, or Gaussian Blur}
+\begin{frame}[label=math-gaussian]{Weierstrass Transform, or Gaussian Blur}
  The 2-dimensional Gaussian function is defined as follows:
  \begin{equation}
   G(x) = \frac{1}{2 \pi \sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}},
@@ -451,22 +462,17 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
 \end{frame}
 
 \begin{frame}
-\begin{minipage}{.45\linewidth}\centering
- \begin{tabular}{c|c|c|c}
-  1 & 2 & 2 & 1 \\ \hline
-  2 & 3 & 3 & 2 \\ \hline
-  2 & 3 & 3 & 2 \\ \hline
-  1 & 2 & 2 & 1 \\ 
- \end{tabular}
-\end{minipage}
-\begin{minipage}{.45\linewidth}\centering
- \begin{tabular}{c|c|c|c}
-  1 & 3  & 5  & 6  \\ \hline
-  3 & 8  & 12 & 15 \\ \hline
-  5 & 12 & 15 & 20 \\ \hline
-  6 & 15 & 20 & 26 \\ 
- \end{tabular}
-\end{minipage}
+ \begin{center}
+ \includegraphics[width=.45\textwidth]{imgs/ii-orig.png}
+ \includegraphics[width=.45\textwidth]{imgs/ii-sum.png}
+ \end{center}
+\end{frame}
+
+\begin{frame}
+ \begin{center}
+ \includegraphics[width=.45\textwidth]{imgs/ii-dup.png}
+ \includegraphics[width=.45\textwidth]{imgs/ii-final.png}
+ \end{center}
 \end{frame}
 
 \begin{frame}[label=math-frobenius]{Frobenius Norm}
