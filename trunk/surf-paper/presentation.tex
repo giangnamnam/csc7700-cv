@@ -274,9 +274,14 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \subsection{Discussion}
 \frame{ \frametitle{Discussion}
-
-  
-
+SURF vs SIFT
+ \begin{itemize}
+  \item SURF uses 64-dimensional descriptor vector, SIFT is 128-dimensional
+  \item SIFT directly computes Gaussian convolution, requiring 25 multiplications and 24 additions to apply a 5x5 filter
+  \item SURF uses integral images to speed up the application of filters and only requires 10 addition and 2 subtractions to apply the derivative-of-gaussian filter
+  \item SIFT downscales image to move through scale space; SURF increases filter size
+  \item SURF requires a contant amount of computations to apply an arbitrary size filter
+ \end{itemize}
 }
 
 \subsection{Conclusion}
