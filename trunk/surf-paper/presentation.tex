@@ -11,6 +11,8 @@
 
 \begin{document}
 
+\maketitle
+
 % Camera calibration and object recognition.
 \section{Introduction and Overview}
 \subsection{Motivation}
@@ -35,6 +37,7 @@
 }
 
 \subsection{Problem Definition}
+
 \frame{ \frametitle{Problem Definition}
 \begin{itemize}
  \item The problem is to efficiently and accurately find point correspondences between two images depicting the same scene, thereby enabling camera calibration and object recognition.
@@ -59,9 +62,10 @@
 \end{itemize} 
 }
 
-
 \frame{ \frametitle{} 
- \includegraphics[width=\textwidth]{imgs/ex_geo_photo_diffs-fw.png}
+ \begin{center}
+ \includegraphics[width=.8\textwidth]{imgs/ex_geo_photo_diffs-fw.png}
+ \end{center}
 }
 
 \subsection{Previous Work}
@@ -126,9 +130,9 @@
 \subsection{Background}
 \frame{ \frametitle{Background}
  \begin{itemize}
- \item Detection of interest points is done through approximations of the \hyperlink{math-laplacian}{\beamergotobutton{Laplacian}} of \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}}, then finding extrema within the scale space of the image. 
- \item Description is handled by assigning orientation vectors using \hyperlink{math-haar}{\beamergotobutton{Haar wavelets}} over a 4x4 grid. Four values ($d_x, d_y, |d_x|, |d_y|$) are stored for each cell, yielding a 64-dimension description vector.
- \item Matching is facilitated by indexing the results with the sign of the Laplacian, which indicates if the blob is block-on-white or white-on-black. The nearest-neighbor ratio matching is used.
+ \item \textbf{Detection} of interest points is done through approximations of the \hyperlink{math-laplacian}{\beamergotobutton{Laplacian}} of \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}}, then finding extrema within the scale space of the image. 
+ \item \textbf{Description} is handled by assigning orientation vectors using \hyperlink{math-haar}{\beamergotobutton{Haar wavelets}} over a 4x4 grid. Four values ($d_x, d_y, |d_x|, |d_y|$) are stored for each cell, yielding a 64-dimension description vector.
+ \item \textbf{Matching} is facilitated by indexing the results with the sign of the Laplacian, which indicates if the blob is block-on-white or white-on-black. The nearest-neighbor ratio matching is used.
  \end{itemize} 
 }
 
@@ -143,12 +147,14 @@ calculated on the image I(x,y), which facilitates the subsequent approximation o
 \hyperlink{math-hessian}{\beamergotobutton{Hessian matrix}} for the image 
 $(x,y)$ over its scale space. The scale space is constructed not by taking
 \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}} of increasing scales
-and downsampling as in SIFT, but instead by convolving with the image box
-filters (of increasing size) which approximate the
-\hyperlink{math-hessian}{\beamergotobutton{Laplacian}} of Gaussians.  Extrema
-of the Hessian determinants found within the \textbf{octaves} constituting the
-scale space of the image indicate blob responses.
+and downsampling as in SIFT, but instead by \hyperlink{math-convolution}{\beamergotobutton{convolving}} with the image box filters (of increasing size) which approximate the \hyperlink{math-hessian}{\beamergotobutton{Laplacian}} of Gaussians.  Extrema of the Hessian determinants found within the \textbf{octaves} constituting the scale space of the image indicate blob responses.
 \end{itemize} 
+}
+
+\frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.7\textwidth]{imgs/descriptor-windows.jpg}
+ \end{center}
 }
 
 \frame{ \frametitle{Orientation Assignment}
@@ -166,23 +172,38 @@ point.
 \end{itemize} 
 }
 
+\frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.8\textwidth]{imgs/orientation-assignment.jpg}
+ \end{center}
+}
+
 \frame{ \frametitle{Description Vector}
  \begin{itemize} 
  \item Square regions of size $20s$ are laid over the interest points along the orientation of the square. These squares are divided into $4x4$ regions, each of which is broken up into a $5x5$ region.  Haar wavelet responses ($d_x, d_y$) are calculated for each of these cells. Then, the sums $\sum d_x, \sum d_y, \sum |d_x|, and \sum |d_y|$ are calculated and assigned to each region in the $4x4$ grid.  These form a 64-dimension descriptor vector for the interest point.
  \end{itemize} 
 }
 
+\frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.7\textwidth]{imgs/descriptor-vector.jpg}
+ \end{center}
+}
+
 \subsection{Method}
 \frame{ \frametitle{Hessian Approximation}
  \begin{itemize} 
   \item A \hyperlink{math-hessian}{\beamergotobutton{Hessian Matrix}} is approximated using box filters. The box filters are approximations of second-order derivatives of Gaussians within a rectangular region. These approximations are efficiently computed using \hyperlink{math-integral}{\beamergotobutton{integral images}}.
-  %box_filters.png
   \item The determinant of the Hessian matrix is approximated using the box filters:
 \begin{equation}
   det_{approx}(\mathcal{H}) = D_{xx} D_{yy} - (wD_{xy})^2
 \end{equation}
   \item where $w$ is a weight needed to adjust for the difference between the approximated and actual Gaussian.
   \end{itemize}
+}
+
+\frame{ \frametitle{}
+  \includegraphics[width=\textwidth]{imgs/box_filters.png}
 }
 
 \frame{ \frametitle{Hessian Determinant Approximation}
@@ -197,16 +218,17 @@ point.
  \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
  \item The $det_{approx}$ represents a \emph{blob response} in $I$ at $\mathbf{x}$. $det_{approx}$ for all locations $\mathbf{x}$ in the image gives a \emph{blob response map}. Local maxima are detected to give the locations of blobs.
  \end{itemize} 
- %hessian_matrix.png
- %hessian_approx_matrix.png
- %det_hessian_approx_matrix.png
 }
+
+\frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/hessian_matrix.png}}
+\frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/hessian_approx_matrix.png}}
+\frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/det_hessian_approx_matrix.png}}
 
 \frame{ \frametitle{Scale Spaces}
  \begin{itemize}
   \item Interest points should be found at different scales. To represent the image at different scales, a \textbf{scale pyramid} is used. 
   \item Rather than iteratively reducing the size of the image, the box filters are
-upscaled and computed, for which there is little additional computational cost. As a side effect of not downsampling the image, there is no \textbf{aliasing}. As a downside of this approach, up-scaled box filters can lose high-frequency components, which can limit scale-invariance.
+upscaled and computed, for which there is little additional computational cost. As a side effect of not downsampling the image, there is no \textbf{aliasing}. 
   \item A scale space is divided into \textbf{octaves}. 
  \end{itemize} 
 }
@@ -362,6 +384,21 @@ SURF vs SIFT
 
 \section{Mathematical Appendix}
 
+\frame{ \frametitle{Index of Mathematical Concepts}
+\begin{itemize} 
+ \item \hyperlink{math-determinant}{\beamergotobutton{Determinant}}
+ \item \hyperlink{math-convolution}{\beamergotobutton{Convolution}}
+ \item \hyperlink{math-laplacian}{\beamergotobutton{Laplacian}}
+ \item \hyperlink{math-gaussian}{\beamergotobutton{Gaussian}}
+ \item \hyperlink{math-distance}{\beamergotobutton{Distance measures}}
+ \item \hyperlink{math-integral}{\beamergotobutton{Integral images}}
+ \item \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}
+ \item \hyperlink{math-clairaut}{\beamergotobutton{Clairaut's theorem}}
+ \item \hyperlink{math-hessian}{\beamergotobutton{Hessian matrix}}
+ \item \hyperlink{math-haar}{\beamergotobutton{Haar wavelets}}
+\end{itemize} 
+}
+
 \begin{frame}[label=math-determinant]{Determinant}
 The \textbf{determinant} of a matrix $A$ is defined as:
  \begin{equation}
@@ -503,7 +540,12 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
   \frac{\partial^2 f}{\partial x \partial y} = 
   \frac{\partial^2 f}{\partial y \partial x}.
  \end{equation}
- \end{itemize}  
+ \item E.g. if $f(x,y) = x^2y^2$, then
+  $\frac{\partial^2 f}{\partial x \partial y} = 
+   \frac{\partial^2 f}{\partial y \partial x} =
+  4xy$.
+ \item Check this for yourself on more complex functions.
+ \end{itemize} 
 \end{frame}
 
 \begin{frame}[label=math-hessian]{Hessian Matrix}
