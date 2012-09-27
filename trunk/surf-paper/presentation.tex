@@ -51,16 +51,17 @@
  \includegraphics[width=\textwidth]{imgs/detect_describe_match.png}
 }
 
-\frame{ \frametitle{} 
- \includegraphics[width=\textwidth]{imgs/ex_geo_photo_diffs-fw.png}
-}
-
 \frame{ \frametitle{Problem Definition}
 \begin{itemize}
  \item The goal is to develop a detector and descriptor which, in comparison to the state-of-the-art detectors and descriptors of the day, are computationally inexpensive but do not sacrifice performance (accuracy of matches).
  \item The focus is on scale and in-plane rotation invariant detectors and descriptors. The descriptor is robust enough to handle skew, anisotropic scaling (stretching), and perspective effects.
  \item The handling of photometric deformations is limited to bias (offset, or brightness changes) and contrast changes (by a scale factor).
 \end{itemize} 
+}
+
+
+\frame{ \frametitle{} 
+ \includegraphics[width=\textwidth]{imgs/ex_geo_photo_diffs-fw.png}
 }
 
 \subsection{Previous Work}
@@ -170,7 +171,6 @@ point.
  \item Square regions of size $20s$ are laid over the interest points along the orientation of the square. These squares are divided into $4x4$ regions, each of which is broken up into a $5x5$ region.  Haar wavelet responses ($d_x, d_y$) are calculated for each of these cells. Then, the sums $\sum d_x, \sum d_y, \sum |d_x|, and \sum |d_y|$ are calculated and assigned to each region in the $4x4$ grid.  These form a 64-dimension descriptor vector for the interest point.
  \end{itemize} 
 }
-
 
 \subsection{Method}
 \frame{ \frametitle{Hessian Approximation}
