@@ -6,10 +6,9 @@ Harris corner detector
 
 Lindeburg
 	- introduced concept of automatic scale selection
-	- experimented with the determinant of the Hessian matrix and the Laplacian, to detect blob-like structures
+	- experimented with the determinant of the Hessian matrix and the Laplacian
 
 Mikolajczyk and Schmid
-	- refined Lindeburgs work
 	- scale invariant feature detection with high repeatability
 	- Harris-Laplace or Hessian-Laplace
 	- Used determinant of the Hessian matrix to select location, and Laplacian to select scale
