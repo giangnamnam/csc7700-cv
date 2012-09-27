@@ -261,6 +261,13 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \subsection{Data}
 \frame{ \frametitle{Data}
+\begin{itemize}
+  \item Standard testing data provided by Mikolajczyk, used to test detector and descriptor
+  \item Includes images of real textures and structured scenes, and different types of geometric and photometric transformations (varying viewpoint, zoom, rotation, lighting, blur...)
+  \item To test applying this to 3D reconstruction, two views of the same object are evaluated to measure the angle between two planes.
+  \item For n-views 3D reconstruction, 13 input images of an old vase are used.
+  \item For the application to object recognition, data is taken from the Caltech face, background, airplane, and motorcycle databases.
+ \end{itemize}
 }
 
 \subsection{Experimental Setup}
