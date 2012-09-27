@@ -35,14 +35,13 @@
   \item \textbf{Detection}: identify points of interest. The most important aspect of a detector is its repeatability.
   \item \textbf{Description}: create a vector which holds data about the feature(s). It should be simple (low-dimensional) to facilitate efficient matching but complex enough to adequately describe the feature.
   \item \textbf{Matching}: match the feature vectors across images. The matching is based on a distance measure between the two feature vectors (such as the \hyperlink{math-distance}{\beamergotobutton{Mahalanobis or Euclidean distance}}).
-  %ex_euc_dist.fw.png
-  %ex_mah_dist.fw.png
  \end{itemize} 
 \end{itemize} 
 }
 
+%+ ex_geo_photo_diffs.fw.png
+
 \frame{ \frametitle{Problem Definition}
-%ex_geo_photo_diffs.fw.png
 \begin{itemize}
  \item The goal is to develop a detector and descriptor which, in comparison to the state-of-the-art detectors and descriptors of the day, are computationally inexpensive but do not sacrifice performance (accuracy of matches).
  \item The focus is on scale and in-plane rotation invariant detectors and descriptors. The descriptor is robust enough to handle skew, anisotropic scaling (stretching), and perspective effects.
@@ -51,56 +50,62 @@
 }
 
 \subsection{Previous Work}
-\frame{ \frametitle{Previous Work - Interest Point Detection}
-Harris corner detector
+\frame{ \frametitle{Interest Point Detection}
+\begin{itemize} 
+\item Harris corner detector
  \begin{itemize}
   \item Uses eigenvalues of second moment matrix
   \item Not scale invariant
  \end{itemize}
 
-Lindeburg
+\item Lindeburg
  \begin{itemize}
   \item Introduced concept of automatic scale selection
   \item Experimented with the determinant of the Hessian matrix and the Laplacian
  \end{itemize}
 
-Mikolajczyk and Schmid
+\item Mikolajczyk and Schmid
  \begin{itemize}
   \item Harris-Laplace or Hessian-Laplace
   \item Scale invariant feature detection with high repeatability
   \item Used determinant of the Hessian matrix to select location, and Laplacian to select scale
  \end{itemize}
+\end{itemize} 
 }
 
-\frame{ \frametitle{Previous Work - Interest Point Detection}
-Lowe
+\frame{ \frametitle{Interest Point Detection}
+\begin{itemize} 
+\item Lowe
  \begin{itemize}
   \item Used a Difference of Gaussians filter to approximate a Laplacian of Gaussians
  \end{itemize}
  
- Conclusions from previous work on interest point detection:
+\item Conclusions from previous work on interest point detection:
  Hessian-based detectors are more stable and repeatable than their Harris-based counterparts. Also, approximations such as DoG provide good speed with minimal loss in  accuracy.
+\end{itemize} 
 }
 
-\frame{ \frametitle{Previous Work - Interest Point Description}
-Many interest point description techniques exist, including: Gaussian derivatives, moment invariants,  complex features, steerable filters, phase-based local features...
+\frame{ \frametitle{Interest Point Description}
+\begin{itemize} 
+\item Many interest point description techniques exist, including: Gaussian derivatives, moment invariants,  complex features, steerable filters, phase-based local features...
 
-Lowe (SIFT)
+\item Lowe (SIFT)
  \begin{itemize}
   \item Computes a histogram of local oriented gradients around the interest point and stores the bins in a 128-dimensional vector
  \end{itemize}
 
-Ke and Sukthankar (PCA-SIFT)
+\item Ke and Sukthankar (PCA-SIFT)
  \begin{itemize}
   \item Apply PCA to the gradient image around the interest point
   \item 36-dimensional descriptor vector is faster in matching but less distinctive than SIFT
   \item Also proposes GLOH, but is similarly computationally expensive due to it's use of PCA
  \end{itemize}
  
-Grabner
+\item Grabner
  \begin{itemize}
   \item Used integral images to approximate SIFT
  \end{itemize}
+\end{itemize} 
 }
 
 \subsection{Background}
@@ -122,8 +127,6 @@ calculated on the image I(x,y), which facilitates the subsequent approximation o
 \hyperlink{math-determinant}{\beamergotobutton{determinant}} of the
 \hyperlink{math-hessian}{\beamergotobutton{Hessian matrix}} for the image 
 $(x,y)$ over its scale space. The scale space is constructed not by taking
-%eqn_basic_hessian.fw.png
-%ex_basic_hessian.fw.png
 \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}} of increasing scales
 and downsampling as in SIFT, but instead by convolving with the image box
 filters (of increasing size) which approximate the
@@ -135,7 +138,7 @@ scale space of the image indicate blob responses.
 
 \frame{ \frametitle{Orientation Assignment}
 \begin{itemize} 
-\item The \hyperlink{math-haar}{Haar wavelet} responses for each point within a
+\item The \hyperlink{math-haar}{\beamergotobutton{Haar wavelet}} responses for each point within a
 neighboorhood of $6s$ (where $s$ is the image scale) are calculated by
 convolving a Haar wavelet filter of $4s$ over the image. The wavelet responses
 are weighted with a Gaussian ($\sigma = 2s$) at the center of the interest
@@ -147,6 +150,13 @@ response vectors is taken to give the dominant orientation for the interest
 point.
 \end{itemize} 
 }
+
+\frame{ \frametitle{Description Vector}
+ \begin{itemize} 
+ \item Square regions of size $20s$ are laid over the interest points along the orientation of the square. These squares are divided into $4x4$ regions, each of which is broken up into a $5x5$ region.  Haar wavelet responses ($d_x, d_y$) are calculated for each of these cells. Then, the sums $\sum d_x, \sum d_y, \sum |d_x|, and \sum |d_y|$ are calculated and assigned to each region in the $4x4$ grid.  These form a 64-dimension descriptor vector for the interest point.
+ \end{itemize} 
+}
+
 
 \subsection{Method}
 \frame{ \frametitle{Hessian Approximation}
@@ -170,7 +180,6 @@ point.
  \end{equation}
  where $|x|_F$ is the
  \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
- %ex_frobenius_norm.fw.png
  \item The $det_{approx}$ represents a \emph{blob response} in $I$ at $\mathbf{x}$. $det_{approx}$ for all locations $\mathbf{x}$ in the image gives a \emph{blob response map}. Local maxima are detected to give the locations of blobs.
  \end{itemize} 
 }
@@ -184,12 +193,20 @@ upscaled and computed, for which there is little additional computational cost. 
  \end{itemize} 
 }
 
+\frame{ \frametitle{}
+ \includegraphics[width=\textwidth]{imgs/pyramid-new.jpg}
+}
+
 \frame{ \frametitle{Octaves}
  \begin{itemize}
   \item An octave represents a series of filter response maps obtained by 
 \hyperlink{math-convolution}{\beamergotobutton{convolving}} the same input image with a filter of increasing size.  
   \item The octave encompasses a scaling factor of 2. The pixel difference between scales of the image is at least one-third of the filter size (which is the size of the lobes in $D_{xx}$ or $D_{yy}$). For odd-$n$ filter sizes, a minimum of 2 pixels is required to guarantee a central pixel. In the case of a filter of size 9, this amounts to a difference of 6.
  \end{itemize} 
+}
+
+\frame{ \frametitle{}
+ \includegraphics[width=\textwidth]{imgs/octaves.png}
 }
 
 \frame{ \frametitle{Scale Interpolation}
@@ -206,6 +223,7 @@ upscaled and computed, for which there is little additional computational cost. 
  \end{itemize} 
 }
 
+
 \frame{ \frametitle{Orientation Assignment}
  \begin{itemize}
   \item For the interest points to be rotation-invariant, the orientation must be reproducible. Haar wavelet responses are calculated in the $x$ and $y$ directions within a circular neighboorhood of radius $6s$, where $s$ is the scale factor. 
@@ -216,6 +234,29 @@ upscaled and computed, for which there is little additional computational cost. 
 }
 
 \frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.8\textwidth]{imgs/orientation-assignment.jpg}
+ \end{center}
+}
+
+\frame{ \frametitle{Description Vector}
+ \begin{itemize} 
+ \item Square regions of size $20s$ are laid over the interest points along the orientation of the square. 
+ \item These squares are divided into $4x4$ regions, each of which is broken up into a $5x5$ region.  This results in a $20x20$ grid.
+ \item Haar wavelet responses ($d_x, d_y$) are calculated for each of the cells in this grid. Then, the sums $\sum d_x, \sum d_y, \sum |d_x|, and \sum |d_y|$ are calculated and assigned to each region in the $4x4$ grid.  These form a 64-dimension descriptor vector for the interest point.
+ \end{itemize} 
+}
+
+\frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.7\textwidth]{imgs/descriptor-windows.jpg}
+ \end{center}
+}
+
+\frame{ \frametitle{}
+ \begin{center}
+ \includegraphics[width=.7\textwidth]{imgs/descriptor-vector.jpg}
+ \end{center}
 }
 
 \subsection{Data}
@@ -364,45 +405,50 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
 \end{frame}
 
 \begin{frame}
-
-\begin{minipage}{.45\linewidth}
- \begin{center}
- \begin{tabular}{c|c|c}
-  1 & 2 & 1 \\ \hline
-  2 & 3 & 2 \\ \hline
-  1 & 2 & 1 \\ \hline
+\begin{minipage}{.45\linewidth}\centering
+ \begin{tabular}{c|c|c|c}
+  1 & 2 & 2 & 1 \\ \hline
+  2 & 3 & 3 & 2 \\ \hline
+  2 & 3 & 3 & 2 \\ \hline
+  1 & 2 & 2 & 1 \\ \hline
  \end{tabular}
- \end{center}
 \end{minipage}
-
-\begin{minipage}{.45\linewidth}
- \begin{center}
- \begin{tabular}{c|c|c}
-  1 & 2 & 1 \\ \hline
-  2 & 3 & 2 \\ \hline
-  1 & 2 & 1 \\ \hline
+\begin{minipage}{.45\linewidth}\centering
+ \begin{tabular}{c|c|c|c}
+  1 & 3  & 5  & 6  \\ \hline
+  3 & 8  & 12 & 15 \\ \hline
+  5 & 12 & 15 & 20 \\ \hline
+  6 & 15 & 20 & 26 \\ \hline
  \end{tabular}
- \end{center}
 \end{minipage}
-
 \end{frame}
 
 \begin{frame}[label=math-frobenius]{Frobenius Norm}
-The Frobenius norm $|A|_F$ of a matrix $A$ is simply defined as:
+\begin{itemize} 
+\item The Frobenius norm $|A|_F$ of a matrix $A$ is simply defined as:
 \begin{equation}
  \sqrt{\sum_{i=0}^n \sum_{j=0}^m A_{ij}^2}
 \end{equation}
+\item So, if the matrix is 
+ $
+ \begin{bmatrix}
+  2 & 5 \\
+  3 & 4 \\
+ \end{bmatrix}
+ $
+\item then the Frobenius norm is 
+ $\sqrt{2^2 + 5^2 + 3^2 + 4^2} = \sqrt{54}$.
+\end{itemize} 
 \end{frame}
 
 \begin{frame}[label=math-clairaut]{Clairaut's Theorem}
- As a consequence of Clairaut's theorem:
+ \begin{itemize} 
+  \item As a consequence of Clairaut's theorem:
  \begin{equation}
   \frac{\partial^2 f}{\partial x \partial y} = 
   \frac{\partial^2 f}{\partial y \partial x}.
  \end{equation}
- The analogous Young's theorem indicates that:
- \begin{equation}
- \end{equation}
+ \end{itemize}  
 \end{frame}
 
 \begin{frame}[label=math-hessian]{Hessian Matrix}
@@ -420,6 +466,36 @@ where $L_{xx}(x,y)$ is the convolution of the Gaussian second-order derivative
 $\frac{\partial^2}{\partial x^x}g(\sigma)$ with the image $I$ in point $\mathbf{x}$; similarly for 
   $L_{xy}(x,\sigma)$ and
   $L_{yy}(x,\sigma)$.
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\includegraphics[width=.7\textwidth]{imgs/hessian.jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}[label=math-haar]{Haar Wavelets}
+\begin{itemize}
+ \item A Haar wavelet is a graph of a sequence of discontinuous square-shaped functions: 
+\end{itemize} 
+ \begin{center}
+ \includegraphics[width=.3\textwidth]{imgs/haar-wavelet.png}
+ \end{center}
+\begin{itemize}
+ \item This particular Haar wavelet is described by the function:
+ \begin{itemize} 
+ \item $\Phi(t) = 1 for 0 \leq \frac{1}{2},$
+ \item $\Phi(t) = -1 for \frac{1}{2} \leq 1,$ and 
+ \item $0$ otherwise.
+ \end{itemize} 
+\end{itemize} 
+\end{frame}
+
+\begin{frame}
+ \begin{center}
+ \includegraphics[width=.3\textwidth]{imgs/haar-x.jpg}
+ \includegraphics[width=.3\textwidth]{imgs/haar-y.jpg}
+ \end{center}
 \end{frame}
 
 \end{document}
