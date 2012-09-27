@@ -51,15 +51,56 @@
 }
 
 \subsection{Previous Work}
-\frame{ \frametitle{Previous Work}
+\frame{ \frametitle{Previous Work - Interest Point Detection}
+Harris corner detector
  \begin{itemize}
-  \item Harris 
-  \item Lindeberg 
-  \item Mikolajczyk and Schmid
-  \item Lowe
-  \item Kadir and Brady
-  \item Jurie and Schmid
- \end{itemize} 
+  \item Uses eigenvalues of second moment matrix
+  \item Not scale invariant
+ \end{itemize}
+
+Lindeburg
+ \begin{itemize}
+  \item Introduced concept of automatic scale selection
+  \item Experimented with the determinant of the Hessian matrix and the Laplacian
+ \end{itemize}
+
+Mikolajczyk and Schmid
+ \begin{itemize}
+  \item Harris-Laplace or Hessian-Laplace
+  \item Scale invariant feature detection with high repeatability
+  \item Used determinant of the Hessian matrix to select location, and Laplacian to select scale
+ \end{itemize}
+}
+
+\frame{ \frametitle{Previous Work - Interest Point Detection}
+Lowe
+ \begin{itemize}
+  \item Used a Difference of Gaussians filter to approximate a Laplacian of Gaussians
+ \end{itemize}
+ 
+ Conclusions from previous work on interest point detection:
+ Hessian-based detectors are more stable and repeatable than their Harris-based counterparts. Also, approximations such as DoG provide good speed with minimal loss in  accuracy.
+}
+
+\frame{ \frametitle{Previous Work - Interest Point Description}
+Many interest point description techniques exist, including: Gaussian derivatives, moment invariants,  complex features, steerable filters, phase-based local features...
+
+Lowe (SIFT)
+ \begin{itemize}
+  \item Computes a histogram of local oriented gradients around the interest point and stores the bins in a 128-dimensional vector
+ \end{itemize}
+
+Ke and Sukthankar (PCA-SIFT)
+ \begin{itemize}
+  \item Apply PCA to the gradient image around the interest point
+  \item 36-dimensional descriptor vector is faster in matching but less distinctive than SIFT
+  \item Also proposes GLOH, but is similarly computationally expensive due to it's use of PCA
+ \end{itemize}
+ 
+Grabner
+ \begin{itemize}
+  \item Used integral images to approximate SIFT
+ \end{itemize}
 }
 
 \subsection{Background}
