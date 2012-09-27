@@ -237,6 +237,14 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \subsection{Conclusion}
 \frame{ \frametitle{Conclusion}
+
+  Speeded-Up Robust Features is an approach for detecting, describing, and matching interest points found in an image in a computationally fast but robust way.
+  The main metric of evaluation for detection is repeatability, which is the ability of an interest point to be detected under several varying circumstances.
+  For description it is uniqueness and completeness and for matching it is mainly speed and accuracy.
+  Several approximations are used including box filters and haar wavelets along with several concepts such as integral images, gradient sums, and fast indexing in an attempt to achieve greater efficiency overall, but not at the cost of performance.
+  Careful tradeoffs were made and evaluated in an effort to pick the best combinations of parameters and to push approximations even further.
+  Through all these techniques, SURF became faster and more accurate than previous methods, including SIFT, Difference of Gaussians, and Hessian-Laplace.
+
 }
 
 \subsection{References}
