@@ -1,11 +1,13 @@
 \documentclass[xcolor=dvipsnames]{beamer}
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{ragged2e}
 \usetheme{Copenhagen}
 \usecolortheme[named=Black]{structure}
 
 \title{SURF: Speeded-Up Robust Features}
 \author{Castleberry, Cherry, and Firth}
+\renewcommand{\raggedright}{\leftskip=0pt \rightskip=0pt plus 0cm}
 
 \begin{document}
 
@@ -60,15 +62,44 @@
 \subsection{Background}
 \frame{ \frametitle{Background}
  \begin{itemize}
-  \item A \hyperlink{math-hessian}{\beamergotobutton{Hessian-matrix}} approximation is used for interest point detection. The approximation is made possible by \hyperlink{math-integral}{\beamergotobutton{integral images}} as popularized by Voila and Jones ~\ref{ref:voila}.
-  \item The Hessian matrix is used to detect blob-like structures wherever the \hyperlink{math-determinant}{\beamergotobutton{determinant}} is maximum.
-  \item The second-order partial derivatives used in the Hessian matrix are approximated using \emph{box filters}. The box filters are evaluated using integral images.
+ \item Detection of interest points is done through approximations of the \hyperlink{math-laplacian}{\beamergotobutton{Laplacian}} of \hyperlink{math-gaussian}{\beamergotobutton{Gaussians}}, then finding extrema within the scale space of the image. 
+ \item Description is handled by assigning orientation vectors using \hyperlink{math-haar}{\beamergotobutton{Haar wavelets}} over a 4x4 grid. Four values ($d_x, d_y, |d_x|, |d_y|$) are stored for each cell, yielding a 64-dimension description vector.
+ \item Matching is facilitated by indexing the results with the sign of the Laplacian, which indicates if the blob is block-on-white or white-on-black. The nearest-neighbor ratio matching is used.
  \end{itemize} 
 }
 
-\section{Description of the Method}
-\subsection{Techniques Used}
-\frame{ \frametitle{Techniques Used}
+\section{Description of the Method} \subsection{Techniques Used}
+  
+\frame{ \frametitle{Blob Detection}
+\begin{itemize}
+\item To summarize the method: an
+\hyperlink{math-integral}{\beamergotobutton{integral image}} is first
+calculated on the image I(x,y), which facilitates the subsequent approximation of the
+\hyperlink{math-determinant}{\beamergotobutton{determinant}} of the
+\hyperlink{math-hessian}{\beamergotobutton{Hessian matrix}} for the image 
+$(x,y)$ over its scale space. The scale space is constructed not by taking
+\hyperlink{math-gaussian}{\beamergotobutton{Gaussians}} of increasing scales
+and downsampling as in SIFT, but instead by convolving with the image box
+filters (of increasing size) which approximate the
+\hyperlink{math-hessian}{\beamergotobutton{Laplacian}} of Gaussians.  Extrema
+of the Hessian determinants found within the \textbf{octaves} constituting the
+scale space of the image indicate blob responses.
+\end{itemize} 
+}
+
+\frame{ \frametitle{Orientation Assignment}
+\begin{itemize} 
+\item The \hyperlink{math-haar}{Haar wavelet} responses for each point within a
+neighboorhood of $6s$ (where $s$ is the image scale) are calculated by
+convolving a Haar wavelet filter of $4s$ over the image. The wavelet responses
+are weighted with a Gaussian ($\sigma = 2s$) at the center of the interest
+point. Haar responses ($x_h, y_h$) within a circle of $6s$ around the interest
+point are graphed.  Haar responses within a window of $\theta$ to
+$\theta+\frac{\pi}{3}$ are summed for $\theta$ from $0$ to $2 \pi$ to form an
+orientation vector for that value of $\theta$.  The maximum of these Haar
+response vectors is taken to give the dominant orientation for the interest
+point.
+\end{itemize} 
 }
 
 \subsection{Method}
@@ -87,8 +118,9 @@
  \begin{itemize} 
   \item $w$ for an $n$x$n$ box filter approximating a Gaussian with $\sigma$ is equal to:
  \begin{equation}
-  \frac{|L_{xy}(\sigma)|_F |D_{yy}(n)|_F}
-       {|L_{yy}(\sigma)|_F |D_{xy}(n)|_F}
+  \frac{
+  {|L_{xy}(\sigma)|_F}/{|L_{yy}(\sigma)|_F}}{
+  {|D_{xy}(n)|_F}/{|D_{yy}(n)|_F} }
  \end{equation}
  where $|x|_F$ is the
  \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
@@ -134,6 +166,9 @@ upscaled and computed, for which there is little additional computational cost. 
   \item The Haar wavelet responses are weighted with a Gaussian ($\sigma = 2s$) centered at the interest point. They are represented as points ($x_{Haar}, y_{Haar}$) where $x_{Haar}$ represents the magnitude of the horizontal response and $y_{Haar}$ represents magnitude of the vertical response.
   \item The circle is divided into slides of $\frac{pi}{3}$ and the Haar responses are summed for each slice to give a local orientation vector. 
  \end{itemize} 
+}
+
+\frame{ \frametitle{}
 }
 
 \subsection{Data}
@@ -200,7 +235,7 @@ with points (0,0), (a,b), and (c,d), (a+b,c+d), then the determinant $ad-bc$ giv
  \end{equation}
  The Laplacian of $f$, or $\nabla^2 f$, is thus defined as:
  \begin{equation}
-  \sum_{i=1}^n \frac{\partial f}{\partial x_i};
+  \sum_{i=1}^n \frac{\partial^2 f}{\partial x_i^2};
  \end{equation}
  that is, the sum of the second-order partial derivatives of $f$.
 \end{frame}
@@ -236,6 +271,17 @@ The Frobenius norm $|A|_F$ of a matrix $A$ is simply defined as:
 \begin{equation}
  \sqrt{\sum_{i=0}^n \sum_{j=0}^m A_{ij}^2}
 \end{equation}
+\end{frame}
+
+\begin{frame}[label=math-clairaut]{Clairaut's Theorem}
+ As a consequence of Clairaut's theorem:
+ \begin{equation}
+  \frac{\partial^2 f}{\partial x \partial y} = 
+  \frac{\partial^2 f}{\partial y \partial x}.
+ \end{equation}
+ The analogous Young's theorem indicates that:
+ \begin{equation}
+ \end{equation}
 \end{frame}
 
 \begin{frame}[label=math-hessian]{Hessian Matrix}
