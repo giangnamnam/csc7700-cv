@@ -90,14 +90,16 @@
 
 \frame{\frametitle{Method: Sampling}
  \begin{equation}
-  \mathbf{X} ~ Gaussian(0, \frac{1}{25} S^2)
-  \mathbf{X} ~ Gaussian(x, \frac{1}{100} S^2)
+  \begin{matrix}
+  \mathbf{X} & \leftarrow & Gaussian(0, & \frac{1}{25}  & S^2)  \\
+  \mathbf{Y} & \leftarrow & Gaussian(x, & \frac{1}{100} & S^2) 
+  \end{matrix}
  \end{equation}
 }
 
-\frame{\frametitle{Previous Work: Binarization}
+\frame{\frametitle{Method: Sampling Distributions}
  \begin{figure}
-  \includegraphics[width=.6\textwidth]{imgs/sampling.png}
+  \includegraphics[width=.75\textwidth]{imgs/sampling.png}
   \caption{Sampling distributions.}
  \end{figure}
 }
