@@ -46,7 +46,20 @@
  \end{center}
 }
 
+\subsection{Previous Work}
 
+\frame{\frametitle{Previous Work: Principal Component Analysis}
+ \begin{figure}
+  \includegraphics[width=.8\textwidth]{imgs/pca_example.png}
+ \end{figure}
+}
+
+\frame{\frametitle{Previous Work: Floating-Point Quantization}
+ \begin{figure}
+  \includegraphics[width=.7\textwidth]{imgs/quantizer.png}
+  \caption{Quantization with a 3-Bit Mantissa.}
+ \end{figure}
+}
 
 \subsection{Background}
 
@@ -190,18 +203,9 @@
 }
 
 \frame{\frametitle{Method: Sampling}
- \begin{equation}
-  \begin{matrix}
-  \mathbf{X} & \leftarrow & Gaussian(0, & \frac{1}{25} & S^2)  \\
-  \mathbf{Y} & \leftarrow & Gaussian(0, & \frac{1}{25} & S^2) 
-  \end{matrix}
- \end{equation}
- \begin{equation}
-  \begin{matrix}
-  \mathbf{X} & \leftarrow & Gaussian(0, & \frac{1}{25}  & S^2)  \\
-  \mathbf{Y} & \leftarrow & Gaussian(x, & \frac{1}{100} & S^2) 
-  \end{matrix}
- \end{equation}
+ \begin{figure}
+  \includegraphics[width=.5\textwidth]{imgs/spat_dist.png}
+ \end{figure}
 }
 
 \frame{\frametitle{Method: Sampling Distributions}
@@ -262,30 +266,23 @@
        \end{center} 
       }
 
-\subsection{Discussion}
+
 \subsection{Conclusion}
 \frame{ \frametitle{Conclusion}
-\begin{center}
-$BRIEF > SURF$.
-\end{center}
-}
-
-\subsection{Previous Work}
-
-\frame{\frametitle{Previous Work: Principal Component Analysis}
- \begin{figure}
-  \includegraphics[width=.6\textwidth]{imgs/pca.jpg}
-  \caption{PCA with Three Components.}
- \end{figure}
-}
-
-\frame{\frametitle{Previous Work: Floating-Point Quantization}
- \begin{figure}
-  \includegraphics[width=.7\textwidth]{imgs/quantizer.png}
-  \caption{Quantization with a 3-Bit Mantissa.}
- \end{figure}
+  \begin{center}
+  \includegraphics[width=1.0\textwidth]{imgs/conclusion.png}
+  \end{center}
 }
 
 \subsection{References}
+\begin{center}
+ \begin{itemize}
+  \item http://www.embege.com/gauss/
+  \item http://cvlab.epfl.ch/~strecha/multiview/denseMVS.html
+  \item http://www.cs.ubc.ca/~mbrown/patchdata/patchdata.html
+  \item http://www.robots.ox.ac.uk/~vgg/research/affine/
+  \item Dr. Gunturk's "Machine Recognition of Patterns" class notes
+ \end{itemize}
+\end{center}
 \end{document}
 
