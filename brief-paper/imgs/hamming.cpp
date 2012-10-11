@@ -6,8 +6,7 @@ int main(){
 	
 	__asm{
 		mov eax, x
-		mov ebx, y
-		xor eax, ebx
+		xor eax, y
 		popcnt eax, eax
 		mov hamming, eax
 	};
