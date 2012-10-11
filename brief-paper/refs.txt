@@ -1,0 +1,5 @@
+http://www.embege.com/gauss/
+http://cvlab.epfl.ch/~strecha/multiview/denseMVS.html
+http://www.cs.ubc.ca/~mbrown/patchdata/patchdata.html
+http://www.robots.ox.ac.uk/~vgg/research/affine/
+Dr. Gunturk's "Machine Recognition of Patterns" class notes
