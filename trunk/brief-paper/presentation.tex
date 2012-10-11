@@ -46,31 +46,21 @@
  \end{center}
 }
 
-\subsection{Previous Work}
 
-\frame{\frametitle{Previous Work: Principal Component Analysis}
- \begin{figure}
-  \includegraphics[width=.6\textwidth]{imgs/pca.jpg}
-  \caption{PCA with Three Components.}
- \end{figure}
-}
-
-\frame{\frametitle{Previous Work: Floating-Point Quantization}
- \begin{figure}
-  \includegraphics[width=.7\textwidth]{imgs/quantizer.png}
-  \caption{Quantization with a 3-Bit Mantissa.}
- \end{figure}
-}
-
-\frame{\frametitle{Previous Work: Binarization}
- \begin{figure}
-  \includegraphics[width=.6\textwidth]{imgs/lsh.jpg}
-  \caption{Locally Sentitive Hashing.}
- \end{figure}
-}
 
 \subsection{Background}
 
+\frame{ \frametitle{Background: Hamming Distance}
+  \begin{center}
+  \includegraphics[width=.5\textwidth]{imgs/hamming.png}
+  \end{center}
+}
+
+\frame{ \frametitle{Background: Hamming Distance}
+  \begin{center}
+  \includegraphics[width=.7\textwidth]{imgs/hamming2.png}
+  \end{center}
+}
 
 \section{Method}
 
@@ -100,11 +90,112 @@
  \end{equation}
 }
 
-\frame{\frametitle{Method: Hamming Distance} \includegraphics[width=\textwidth]{imgs/hamming2.png} }
 
-\frame{\frametitle{Method: Hamming Distance} \includegraphics[width=\textwidth]{imgs/hamming_cpp.png} }
+\frame{\frametitle{Method: Example of Distribution}
+ \begin{figure}
+  \includegraphics[width=.6\textwidth]{imgs/grid.png}
+  \caption{Sampling distributions.}
+ \end{figure}
+}
+
+\frame{\frametitle{Example of Patch Test on Distribution}
+\begin{minipage}{.45\linewidth}
+%\begin{flushleft}
+\begin{center}
+\[
+ \begin{bmatrix}
+  1 & 3 & 5 & 4 & 2 \\ 
+  3 & 2 & 1 & 8 & 7 \\ 
+  9 & 5 & 4 & 6 & 4 \\
+  7 & 9 & 5 & 2 & 1 \\
+  2 & 3 & 6 & 5 & 4 
+ \end{bmatrix}
+\]
+ \begin{figure}
+  \includegraphics[width=.6\textwidth]{imgs/grid.png}
+  \caption{Sampling distributions.}
+ \end{figure}
+\end{center}
+%\end{flushleft}
+\end{minipage}
+\begin{minipage}{.45\linewidth}
+%\begin{flushright}
+\begin{center}
+\begin{tabular}{ll|r}
+ x & y & $\tau$ \\ \hline
+ 2 & 3 & 1 \\ 
+ 3 & 8 & 1 \\ 
+ 9 & 4 & 0 \\ 
+ 1 & 2 & 1 \\ 
+ 6 & 1 & 0 
+\end{tabular}
+\\
+\vspace{12pt}
+11010
+\end{center}
+%\end{flushright}
+\end{minipage}
+}
+
+\frame{\frametitle{Example of Patch Test on Distribution}
+\begin{minipage}{.45\linewidth}
+%\begin{flushleft}
+\begin{center}
+\[
+ \begin{bmatrix}
+  3 & 2 & 1 & 8 & 7 \\ 
+  9 & 5 & 4 & 6 & 4 \\
+  7 & 9 & 5 & 2 & 1 \\
+  1 & 3 & 5 & 4 & 2 \\ 
+  2 & 3 & 6 & 5 & 4 
+ \end{bmatrix}
+\]
+ \begin{figure}
+  \includegraphics[width=.6\textwidth]{imgs/grid.png}
+  \caption{Sampling distributions.}
+ \end{figure}
+\end{center}
+%\end{flushleft}
+\end{minipage}
+\begin{minipage}{.45\linewidth}
+%\begin{flushright}
+\begin{center}
+\begin{tabular}{ll|r}
+ x & y & $\tau$ \\ \hline
+ 2 & 9 & 1 \\ 
+ 2 & 6 & 1 \\ 
+ 3 & 5 & 1 \\ 
+ 4 & 4 & 0 \\ 
+ 6 & 2 & 0 
+\end{tabular}
+\\
+\vspace{12pt}
+11100
+\end{center}
+%\end{flushright}
+\end{minipage}
+}
+
+\frame{\frametitle{}
+\begin{center}
+\begin{tabular}{ccccc}
+ 1 & 1 & 0 & 1 & 0 \\ 
+ 1 & 1 & 1 & 0 & 0 \\ 
+ y & y & n & n & y  
+\end{tabular}
+\\
+\vspace{12pt}
+ Hamming distance: 2.
+\end{center}
+}
 
 \frame{\frametitle{Method: Sampling}
+ \begin{equation}
+  \begin{matrix}
+  \mathbf{X} & \leftarrow & Gaussian(0, & \frac{1}{25} & S^2)  \\
+  \mathbf{Y} & \leftarrow & Gaussian(0, & \frac{1}{25} & S^2) 
+  \end{matrix}
+ \end{equation}
  \begin{equation}
   \begin{matrix}
   \mathbf{X} & \leftarrow & Gaussian(0, & \frac{1}{25}  & S^2)  \\
@@ -121,7 +212,29 @@
 }
 
 \subsection{Data}
+
+\frame{\frametitle{} 
+       \begin{center} 
+       \includegraphics[width=.5\textwidth]{imgs/figure10a.png} 
+       \end{center} 
+      }
+\frame{\frametitle{} 
+       \begin{center} 
+       \includegraphics[width=.7\textwidth]{imgs/figure10b.png} 
+       \end{center} 
+      }
+
+
 \subsection{Experimental Setup}
+\frame{ \frametitle{Experimental Setup}
+\begin{itemize}
+ \item U-BRIEF
+ \item S-BRIEF
+ \item O-BRIEF
+ \item D-BRIEF
+\end{itemize} 
+}
+
 \section{Conclusion}
 \subsection{Results}
 
@@ -137,16 +250,6 @@
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure07.png} }
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure08.png} }
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure09.png} }
-\frame{\frametitle{} 
-       \begin{center} 
-       \includegraphics[width=.5\textwidth]{imgs/figure10a.png} 
-       \end{center} 
-      }
-\frame{\frametitle{} 
-       \begin{center} 
-       \includegraphics[width=.7\textwidth]{imgs/figure10b.png} 
-       \end{center} 
-      }
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure11.png} }
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure12.png} }
 \frame{\frametitle{} \includegraphics[width=\textwidth]{imgs/figure13.png} }
@@ -161,6 +264,28 @@
 
 \subsection{Discussion}
 \subsection{Conclusion}
+\frame{ \frametitle{Conclusion}
+\begin{center}
+$BRIEF > SURF$.
+\end{center}
+}
+
+\subsection{Previous Work}
+
+\frame{\frametitle{Previous Work: Principal Component Analysis}
+ \begin{figure}
+  \includegraphics[width=.6\textwidth]{imgs/pca.jpg}
+  \caption{PCA with Three Components.}
+ \end{figure}
+}
+
+\frame{\frametitle{Previous Work: Floating-Point Quantization}
+ \begin{figure}
+  \includegraphics[width=.7\textwidth]{imgs/quantizer.png}
+  \caption{Quantization with a 3-Bit Mantissa.}
+ \end{figure}
+}
+
 \subsection{References}
 \end{document}
 
