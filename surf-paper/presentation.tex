@@ -3,7 +3,7 @@
 \usepackage{hyperref}
 \usepackage{ragged2e}
 \usetheme{Copenhagen}
-\usecolortheme[named=Black]{structure}
+\usecolortheme[named=Blue]{structure}
 
 \title{SURF: Speeded-Up Robust Features}
 \author{Castleberry, Cherry, and Firth}
@@ -172,6 +172,12 @@ point.
 \end{itemize} 
 }
 
+\begin{frame}
+ \begin{center}
+ \includegraphics[width=.6\textwidth]{imgs/haar-wavelet.png}
+ \end{center}
+\end{frame}
+
 \frame{ \frametitle{}
  \begin{center}
  \includegraphics[width=.8\textwidth]{imgs/orientation-assignment.jpg}
@@ -186,7 +192,7 @@ point.
 
 \frame{ \frametitle{}
  \begin{center}
- \includegraphics[width=.7\textwidth]{imgs/descriptor-vector.jpg}
+ \includegraphics[width=.9\textwidth]{imgs/descriptor-vector.jpg}
  \end{center}
 }
 
@@ -199,6 +205,10 @@ point.
   det_{approx}(\mathcal{H}) = D_{xx} D_{yy} - (wD_{xy})^2
 \end{equation}
   \item where $w$ is a weight needed to adjust for the difference between the approximated and actual Gaussian.
+  \item Note that:
+\begin{equation}
+  det(\mathcal{H}) = L_{xx} L_{yy} - (wL_{xy})^2.
+\end{equation}
   \end{itemize}
 }
 
@@ -215,7 +225,7 @@ point.
   {|D_{xy}(n)|_F}/{|D_{yy}(n)|_F} }
  \end{equation}
  where $|x|_F$ is the
- \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes with filter size; however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
+ \hyperlink{math-frobenius}{\beamergotobutton{Frobenius norm}}. This factor changes slightly with filter size ($n$ is approximately $\frac{9}{1.2} \sigma$); however, it is desirable to keep it constant. Therefore the filter responses ($D$) are normalized with respect to their size to guarantee a constant Frobenius norm. 
  \item The $det_{approx}$ represents a \emph{blob response} in $I$ at $\mathbf{x}$. $det_{approx}$ for all locations $\mathbf{x}$ in the image gives a \emph{blob response map}. Local maxima are detected to give the locations of blobs.
  \end{itemize} 
 }
@@ -263,6 +273,9 @@ upscaled and computed, for which there is little additional computational cost. 
  \end{itemize} 
 }
 
+\frame{ \frametitle{}
+ \includegraphics[width=\textwidth]{imgs/pyramid-new.jpg}
+}
 
 \frame{ \frametitle{Orientation Assignment}
  \begin{itemize}
@@ -295,7 +308,7 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \frame{ \frametitle{}
  \begin{center}
- \includegraphics[width=.7\textwidth]{imgs/descriptor-vector.jpg}
+ \includegraphics[width=.9\textwidth]{imgs/descriptor-vector.jpg}
  \end{center}
 }
 
@@ -309,6 +322,9 @@ upscaled and computed, for which there is little additional computational cost. 
   \item For the application to object recognition, data is taken from the Caltech face, background, airplane, and motorcycle databases.
  \end{itemize}
 }
+
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results7.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results8.jpg}\end{center}}
 
 \subsection{Experimental Setup}
 \frame{ \frametitle{Experimental Setup}
@@ -326,9 +342,12 @@ upscaled and computed, for which there is little additional computational cost. 
 
 \frame{\frametitle{Results}\begin{center}\includegraphics[width=\textwidth]{imgs/table1.png}\end{center}}
 
-\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results0.jpg}\end{center}}
-\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results1.jpg}\end{center}}
-\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results2.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results0a.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results0b.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results1a.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results1b.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results2a.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results2b.jpg}\end{center}}
 %\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results3.jpg}\end{center}}
 \frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results4.jpg}\end{center}}
 \frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results5.jpg}\end{center}}
@@ -336,7 +355,8 @@ upscaled and computed, for which there is little additional computational cost. 
 %\frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results6.jpg}\end{center}}
 \frame{\frametitle{Results}\begin{center}\includegraphics[width=.6\textwidth]{imgs/results7.jpg}\end{center}}
 \frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results8.jpg}\end{center}}
-\frame{\frametitle{Results}\begin{center}\includegraphics[width=.4\textwidth]{imgs/results9.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results9a.jpg}\end{center}}
+\frame{\frametitle{Results}\begin{center}\includegraphics[width=.8\textwidth]{imgs/results9b.jpg}\end{center}}
 
 
 \subsection{Discussion}
