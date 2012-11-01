@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegralImageStopSignDetector.cs" />
     <Compile Include="HogPedestrianDetector.cs" />
     <Compile Include="OrientedSurfWarningSignDetector.cs" />
     <Compile Include="SurfWarningSignDetector.cs" />
