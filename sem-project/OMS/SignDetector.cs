@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OMS.CVApp.SignDetector
 {
-    class SignDetector : Detector
+    abstract class SignDetector : Detector
     {
     }
 }
