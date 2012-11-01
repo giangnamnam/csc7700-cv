@@ -1,4 +1,4 @@
-﻿namespace OMS
+﻿namespace OMS.CVApp
 {
     partial class Form1
     {
