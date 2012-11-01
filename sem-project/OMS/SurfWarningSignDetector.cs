@@ -15,13 +15,13 @@ namespace OMS.CVApp.SignDetector
     {
         public override Rectangle[] find(Image<Bgr, Byte> image)
         {
-            Console.WriteLine("Unimplemented: find() in SurfStopSignDetector.");
+            Console.WriteLine("Unimplemented: find() in SurfWarningSignDetector.");
             return null;
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> image)
         {
-            Console.WriteLine("Unimplemented: annotate() in SurfStopSignDetector.");
+            Console.WriteLine("Unimplemented: annotate() in SurfWarningSignDetector.");
             return null;
         }
     }
