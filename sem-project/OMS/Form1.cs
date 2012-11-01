@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace OMS
+namespace OMS.CVApp
 {
     public partial class Form1 : Form
     {
