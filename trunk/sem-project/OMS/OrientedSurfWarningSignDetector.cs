@@ -7,7 +7,7 @@ using OMS.CVApp;
 
 namespace OMS.CVApp.SignDetector
 {
-    abstract class StopSignDetector : SignDetector
+    class OrientedSurfWarningSignDetector : SurfWarningSignDetector
     {
     }
 }

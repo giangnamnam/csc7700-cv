@@ -10,11 +10,16 @@ using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
+using OMS.CVApp.SignDetector;
+
 namespace OMS.CVApp
 {
     public partial class Form1 : Form
     {
         Capture camera;
+        Detector stop_sign_detector = new SurfStopSignDetector();
+        Detector pedestrian_detector = new HogPedestrianDetector();
+
         public Form1()
         {
             InitializeComponent();
@@ -26,7 +31,7 @@ namespace OMS.CVApp
         void camera_ImageGrabbed(object sender, EventArgs e)
         {
             Image<Bgr, Byte> image = camera.RetrieveBgrFrame();
-            imageBox1.Image = image;
+            imageBox1.Image = pedestrian_detector.annotate(image);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OMS.CVApp
 {
-    class PedestrianDetector : Detector
+    abstract class PedestrianDetector : Detector
     {
     }
 }

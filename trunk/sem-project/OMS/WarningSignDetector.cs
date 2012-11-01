@@ -7,7 +7,7 @@ using OMS.CVApp;
 
 namespace OMS.CVApp.SignDetector
 {
-    class WarningSignDetector : SignDetector
+    abstract class WarningSignDetector : SignDetector
     {
     }
 }
