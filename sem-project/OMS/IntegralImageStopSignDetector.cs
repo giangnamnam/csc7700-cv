@@ -19,7 +19,7 @@ namespace OMS.CVApp.SignDetector
         {
         }
 
-        public override Rectangle find(Image<Bgr, Byte> orig)
+        public override Rectangle[] find(Image<Bgr, Byte> orig)
         {
           //Image<Bgr, Byte> orig = new Image<Bgr, Byte>("stop-sign-model.png");
 
@@ -77,13 +77,17 @@ namespace OMS.CVApp.SignDetector
             int h = (int)((d-c)*s_y);
 
             Rectangle R = new Rectangle(x,y,w,h);
-            return R;
+            Rectangle[] ra = new Rectangle[1];
+            ra[0] = R;
+            return ra;
         }
 
-        public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> image)
+        public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            Console.WriteLine("Unimplemented: annotate() in IntegralImageStopSignDetector.");
-            return null;
+            Image<Bgr, Byte> image = i.Clone();
+            foreach (Rectangle item in find(i))
+                image.Draw(item, new Bgr(Color.Blue), 1);
+            return image;
         }
 
         public object Rectangle { get; set; }
