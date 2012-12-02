@@ -19,8 +19,11 @@ namespace OMS.CVApp{
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i){
             Image<Bgr, Byte> image = i.Clone();
-            foreach (Rectangle pedestrain in find(i))
-                image.Draw(pedestrain, new Bgr(Color.Orange), 1);
+            Rectangle[] items = find(i);
+            if (items == null)
+                return image;
+            foreach (Rectangle item in items)
+                image.Draw(item, new Bgr(Color.Orange), 3);
             return image;
         }
     }

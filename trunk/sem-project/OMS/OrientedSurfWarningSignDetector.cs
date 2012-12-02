@@ -19,10 +19,15 @@ namespace OMS.CVApp.SignDetector
             return null;
         }
 
-        public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> image)
+        public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            Console.WriteLine("Unimplemented: annotate() in OrientedSurfWarningSignDetector.");
-            return null;
+            Image<Bgr, Byte> image = i.Clone();
+            Rectangle[] items = find(i);
+            if (items == null)
+                return image;
+            foreach (Rectangle item in items)
+                image.Draw(item, new Bgr(Color.DarkGreen), 3);
+            return image;
         }
     }
 }
