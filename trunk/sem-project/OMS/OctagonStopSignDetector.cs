@@ -19,11 +19,19 @@ namespace OMS.CVApp.SignDetector
         {
         }
 
+        private static Image<Gray, Byte> GetRedPixelMask(Image<Bgr, byte> img)
+        {
+            img = img.PyrDown().PyrDown().PyrUp().PyrUp();
+            Image<Gray, Byte> img2 = img[2] - (img[0] + img[1]);
+            return img2;
+        }
+
         public override Rectangle[] find(Image<Bgr, Byte> orig){
             List<Rectangle> octList = new List<Rectangle>(); //a box is a rotated rectangle
 
             // convert to grayscale and filter out noise
-            Image<Gray, Byte> gray = orig.Convert<Gray, Byte>().PyrDown().PyrUp();
+            //Image<Gray, Byte> gray = orig.Convert<Gray, Byte>().PyrDown().PyrUp();
+            Image<Gray, Byte> gray = GetRedPixelMask(orig);
 
             // Canny and edge detection
             Gray cannyThreshold = new Gray(180);
@@ -46,11 +54,11 @@ namespace OMS.CVApp.SignDetector
                    contours = contours.HNext){
                     Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.05, storage);
 
-                    if (currentContour.Area > 250){ //only consider contours with area greater than 250
+                    if (currentContour.Area > 100){ //only consider contours with area greater than 250
                         if (currentContour.Total == 8){ //The contour has 8 vertices.
                             // determine if all the angles in the contour are within [125, 145] degree (should be 135)
                             bool isOctagon = true;
-                            Point[] pts = currentContour.ToArray();
+                            /*Point[] pts = currentContour.ToArray();
                             LineSegment2D[] edges = PointCollection.PolyLine(pts, true);
 
                             for (int i = 0; i < edges.Length; i++){
@@ -60,7 +68,7 @@ namespace OMS.CVApp.SignDetector
                                     isOctagon = false;
                                     break;
                                 }
-                            }
+                            }*/
 
                             if (isOctagon) octList.Add(currentContour.GetMinAreaRect().MinAreaRect());
                         }

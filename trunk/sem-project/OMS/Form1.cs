@@ -18,7 +18,10 @@ namespace OMS.CVApp
     public partial class Form1 : Form
     {
         Capture camera;
-        Detector surf_stop_sign_detector = new SurfStopSignDetector();
+        Detector surf_stop_sign_detector_a = new SurfStopSignDetector();
+        Detector surf_stop_sign_detector_b = new SurfDetector("stop-sign-model.png");
+        Detector surf_stop_sign_detector_c = new SurfDetector("stop-sign-model-blank.png");
+
         Detector octagon_stop_sign_detector = new OctagonStopSignDetector();
         Detector ii_stop_sign_detector = new IntegralImageStopSignDetector();
         Detector pedestrian_detector = new HogPedestrianDetector();
@@ -46,10 +49,11 @@ namespace OMS.CVApp
 
         void process(Image<Bgr, Byte> image){
             //image = pedestrian_detector.annotate(image);
-            //image = surf_stop_sign_detector.annotate(image);
+            //image = surf_stop_sign_detector_a.annotate(image);
+            image = surf_stop_sign_detector_b.annotate(image);
+            //image = surf_stop_sign_detector_c.annotate(image);
             //image = ii_stop_sign_detector.annotate(image);
             //image = octagon_stop_sign_detector.annotate(image);
-
             imageBox1.Image = image;
         }
 
