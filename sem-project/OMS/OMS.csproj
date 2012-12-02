@@ -82,6 +82,7 @@
     <Compile Include="IntegralImageStopSignDetector.cs" />
     <Compile Include="HogPedestrianDetector.cs" />
     <Compile Include="OrientedSurfWarningSignDetector.cs" />
+    <Compile Include="SurfDetector.cs" />
     <Compile Include="SurfWarningSignDetector.cs" />
     <Compile Include="WarningSignDetector.cs" />
     <Compile Include="SurfStopSignDetector.cs" />
@@ -122,6 +123,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="stop-sign-model-blank.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="stop-sign-model.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
