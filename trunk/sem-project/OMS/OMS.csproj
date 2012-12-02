@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CannyEdgeDetector.cs" />
+    <Compile Include="OctagonStopSignDetector.cs" />
     <Compile Include="EdgeDetector.cs" />
     <Compile Include="IntegralImageStopSignDetector.cs" />
     <Compile Include="HogPedestrianDetector.cs" />
