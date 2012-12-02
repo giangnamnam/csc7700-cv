@@ -19,7 +19,7 @@ namespace OMS.CVApp
     {
         Capture camera;
         Detector surf_stop_sign_detector = new SurfStopSignDetector();
-        Detector ocragon_stop_sign_detector = new OctagonStopSignDetector();
+        Detector octagon_stop_sign_detector = new OctagonStopSignDetector();
         Detector ii_stop_sign_detector = new IntegralImageStopSignDetector();
         Detector pedestrian_detector = new HogPedestrianDetector();
         String[] files;
@@ -31,7 +31,7 @@ namespace OMS.CVApp
 
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
             di = di.Parent.Parent;
-            files = Directory.GetFiles(di.FullName+"\\testing\\pedestrian\\positive\\");
+            files = Directory.GetFiles(di.FullName+"\\testing\\stop\\positive\\");
 
             //double[] d = { 0, 0.001, 0};
             //RotationVector3D m = new RotationVector3D(d);
@@ -45,10 +45,11 @@ namespace OMS.CVApp
         }
 
         void process(Image<Bgr, Byte> image){
-            image = pedestrian_detector.annotate(image);
+            //image = pedestrian_detector.annotate(image);
             //image = surf_stop_sign_detector.annotate(image);
             //image = ii_stop_sign_detector.annotate(image);
             //image = octagon_stop_sign_detector.annotate(image);
+
             imageBox1.Image = image;
         }
 
