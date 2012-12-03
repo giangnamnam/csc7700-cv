@@ -22,6 +22,8 @@ namespace OMS.CVApp
         Detector surf_stop_sign_detector_b = new SurfDetector("stop-sign-model.png");
         Detector surf_stop_sign_detector_c = new SurfDetector("stop-sign-model-blank.png");
 
+        Detector draw_annotation;
+
         Detector octagon_stop_sign_detector = new OctagonStopSignDetector();
         Detector ii_stop_sign_detector = new IntegralImageStopSignDetector();
         Detector pedestrian_detector = new HogPedestrianDetector();
@@ -34,10 +36,10 @@ namespace OMS.CVApp
 
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
             di = di.Parent.Parent;
-            files = Directory.GetFiles(di.FullName + "\\testing\\stop\\positive\\");
+            files = Directory.GetFiles(di.FullName + "\\testing\\warning\\positive\\", "*.jpg");
             //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
 
-            /*timer1.Enabled = false;
+            timer1.Enabled = false;
             Image<Bgr, Byte> i = new Image<Bgr, byte>("stop-sign-model.png");
 
             PointF[] src = new PointF[4];
@@ -53,11 +55,12 @@ namespace OMS.CVApp
             des[2] = new PointF(1, 0.5f);
             des[3] = new PointF(0.5f, 1);
 
+            //HomographyMatrix homo = CvInvoke.cvGetPerspectiveTransform(src, des, );
             HomographyMatrix homo = CameraCalibration.GetPerspectiveTransform(src, des);
             i = i.WarpPerspective(homo, i.Width, i.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
 
 
-            imageBox1.Image = i;*/
+            imageBox1.Image = i;
 
 
             //camera = new Capture("C:\\Users\\Robert\\Desktop\\csc7600\\bmod-paper\\matlab\\crude_algorithm\\fount_out6.avi");
@@ -71,17 +74,19 @@ namespace OMS.CVApp
             //image = surf_stop_sign_detector_c.annotate(image);
             //image = ii_stop_sign_detector.annotate(image);
 
-            image = image.PyrDown().PyrDown().PyrUp().PyrUp();
+            /*image = image.PyrDown().PyrDown().PyrUp().PyrUp();
             
             Gray cannyThreshold = new Gray(180);
             Gray cannyThresholdLinking = new Gray(120);
             Image<Gray, Byte> img2 = image[2] - (image[0] + image[1]);
             Image<Gray, Byte> cannyEdges = img2.Canny(cannyThreshold, cannyThresholdLinking);
 
-            imageBox1.Image = cannyEdges;
+            imageBox1.Image = cannyEdges;*/
+
+            image = draw_annotation.annotate(image);
 
             //image = octagon_stop_sign_detector.annotate(img2.Convert<Bgr, Byte>());
-            //imageBox1.Image = image;
+            imageBox1.Image = image;
         }
 
         void camera_ImageGrabbed(object sender, EventArgs e){
@@ -94,6 +99,10 @@ namespace OMS.CVApp
             {
                 debug.Text += files[i] + "\r\n";
                 Image<Bgr, byte> img = new Image<Bgr, byte>(files[i]);
+                draw_annotation = new DrawAnnotation(files[i].Substring(0, files[i].Length-4) + "_annotate.txt");
+
+                //debug.Text += (new ReadAnnotationPoints.AnnotationPoints(files[i] + "_annotate.txt")).ToString();
+
                 process(img);
 
                 i++;

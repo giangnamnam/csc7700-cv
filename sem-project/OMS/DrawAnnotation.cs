@@ -27,7 +27,7 @@ namespace OMS.CVApp.SignDetector
             Image<Bgr, Byte> image = i.Clone();
             List<Point> points = (new ReadAnnotationPoints.AnnotationPoints(f)).Points;
             foreach (Point p in points)
-                image.DrawPolyline(points.ToArray(), true, new Bgr(Color.HotPink), 3);
+                image.DrawPolyline(points.ToArray(), true, new Bgr(Color.Red), 3);
             return image;
         }
     }
