@@ -34,7 +34,10 @@ namespace OMS.CVApp
 
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
             di = di.Parent.Parent;
-            files = Directory.GetFiles(di.FullName+"\\testing\\stop\\positive\\");
+            files = Directory.GetFiles(di.FullName + "\\testing\\stop\\positive\\");
+            //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
+
+            //int  i = CvInvoke.cvFindFundamentalMat(
 
             //double[] d = { 0, 0.001, 0};
             //RotationVector3D m = new RotationVector3D(d);
@@ -50,11 +53,21 @@ namespace OMS.CVApp
         void process(Image<Bgr, Byte> image){
             //image = pedestrian_detector.annotate(image);
             //image = surf_stop_sign_detector_a.annotate(image);
-            image = surf_stop_sign_detector_b.annotate(image);
+            //image = surf_stop_sign_detector_b.annotate(image);
             //image = surf_stop_sign_detector_c.annotate(image);
             //image = ii_stop_sign_detector.annotate(image);
-            //image = octagon_stop_sign_detector.annotate(image);
-            imageBox1.Image = image;
+
+            image = image.PyrDown().PyrDown().PyrUp().PyrUp();
+            
+            Gray cannyThreshold = new Gray(180);
+            Gray cannyThresholdLinking = new Gray(120);
+            Image<Gray, Byte> img2 = image[2] - (image[0] + image[1]);
+            Image<Gray, Byte> cannyEdges = img2.Canny(cannyThreshold, cannyThresholdLinking);
+
+            imageBox1.Image = cannyEdges;
+
+            //image = octagon_stop_sign_detector.annotate(img2.Convert<Bgr, Byte>());
+            //imageBox1.Image = image;
         }
 
         void camera_ImageGrabbed(object sender, EventArgs e){
