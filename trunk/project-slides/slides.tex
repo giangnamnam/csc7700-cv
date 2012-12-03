@@ -1,0 +1,152 @@
+\documentclass{beamer}
+\usepackage{amsmath}
+\usetheme{Copenhagen}
+\usecolortheme[named=red]{structure}
+
+\author{Castleberry, Cherry, and Firth}
+\title{Efficient Stop \& Warning Sign and Pedestrian Detection}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction and Overview}
+\frame{ \frametitle{Overview}
+ \begin{itemize}
+   \item We implemented the following:
+   \begin{itemize}
+    \item Stop-sign detector
+    \item Warning sign detector
+    \item Pedestrian detector
+   \end{itemize} 
+ \end{itemize} 
+}
+
+\section{Stop Signs}
+\frame{ \frametitle{Stop Sign Detection, SURF}
+ \begin{itemize} 
+  \item We created a wrapper to the built-in EmguCV SURF detector
+        to use as a basis of comparison for our own method.
+  \item 
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Stop Sign Detection, Integral Images}
+ \begin{itemize} 
+  \item We developed a method for detecting stop signs based upon
+        the use of integral images which we encountered in the
+        SURF algorithm.
+  \item To summarize the method, we use integral images from both
+        the left-hand side (top left) and the right-hand side
+        (bottom right). Then we consider only the LHS and RHS
+        integral images along the diagonal of the image.  We
+        difference these, then fit a Gaussian curve to the
+        resulting vector.  We threshold the curve at one standard
+        deviation to form a bounding box for the stop sign.
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Stop Sign Detection, Integral Images}
+ \begin{itemize} 
+  \item To begin our method, we scale the $N \times M$ image
+        to $N \times N$ for $N<M$, $M \times M$ for $M<N$.  We
+        require a square matrix to extract a particular vector.
+  \item Recall that the formula for computing the integral image
+        $\mathcal{I_{-}}$ at a pixel $(x, y)$ with intensity value
+        $I(x,y)$ is:
+  \begin{equation}
+   \mathcal{I}_{-}(x,y) = \sum_{i=0}^{n_x} \sum_{j=0}^{n_y} I(x,y)
+  \end{equation}
+  \item We compute the integral image using the following formula:
+  \begin{equation}
+   \mathcal{I}_{x,y} = \mathcal{I}_{x-1,y}+ \mathcal{I}_{x,y-1}- \mathcal{I}_{x-1,y-1}
+  \end{equation}
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Stop Sign Detection, Integral Images}
+ \begin{itemize} 
+  \item Likewise, we compute an RHS integral image 
+        $\mathcal{I_{+}}$ at a pixel $(x, y)$ with intensity value
+        $I(x,y)$ as:
+  \begin{equation}
+   \mathcal{I}_{+}(x,y) = \sum_{i=N}^{n_x} \sum_{j=N}^{n_y} I(x,y)
+  \end{equation}
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Stop Sign Detection, Integral Images}
+ \begin{itemize} 
+  \item After obtaining the integral image, we copy its diagonal
+        into a vector $u$.
+  \item We then apply a finite-difference method to the elements in
+        $u$ and store it in $v$, as follows:
+  \begin{equation}
+   v_{n} = u_{n} - u_{n-1}
+  \end{equation}
+  The vector $v$ gives the LHS crosshair of the R-channel. For images
+  which have stop signs, $v$ has a Gauss distribution.
+ \end{itemize} 
+}
+
+\frame{ \frametitle{Stop Sign Detection, Integral Images}
+ \begin{itemize} 
+  \item We apply this finite-difference method for both vectors
+        $u_{-}$ and $u_{+}$ to obtain $v_{-}$ and $v_{+}$.
+  \item Then, we add $v_{-}$ and $v_{+}$ to obtain a vector
+        $m$.
+  \item Finally, we compute the standard deviation $\sigma$ of
+        the vector $m$ and its centroid $c$, then apply a Gaussian
+        fit to the data in $m$.
+  \item Using the threshold value $\sigma_\epsilon$, we bound the
+        coordinates of the box surrounding the stop sign.
+ \end{itemize} 
+}
+
+\section{Warning Signs}
+
+\frame{ \frametitle{Warning Signs}
+  \begin{itemize}
+    \item For our warning sign detection, we experimented with 
+          SURF in combination with perspective transformations
+          on out-of-plane-rotated signs. 
+    \item In particular, we assume that we know the perspective
+          information of an out-of-plane-rotated sign.  We apply
+          a perspective transform to a model sign, then apply
+          SURF to the two images, then match.
+  \end{itemize} 
+}
+
+\frame{ \frametitle{Warning Signs}
+  \begin{itemize}
+    \item We first hand-annotated $N$ images using a MATLAB code.
+    \item From this, we extracted a set of $4N$ points which
+          give the vertices of the warning sign.  We then applied
+          \texttt{getPerspectiveTransform()} on the points, which
+          returns a perspective transform matrix \texttt{M}.
+    \item We apply this perspective transform matrix to the model
+          with the function \texttt{warpPerspective()}.
+    \item We then run SURF on the two images, then compare their
+          feature descriptors to obtain a match within a threshold
+          of $t_\epsilon$.
+  \end{itemize} 
+}
+
+\section{Results and Conclusion}
+
+\frame{ \frametitle{Results}
+  \begin{itemize}
+    \item The following table summarizes our results:
+  \end{itemize} 
+  \begin{tabular}{llll}
+  A & B & C & D \\
+  & & &  \\
+  \end{tabular}
+  \begin{itemize}
+    \item As is evident in the above, our accuracy for \ldots was an 
+    abysmal $N\%$.
+  \end{itemize} 
+}
+
+\end{document}
