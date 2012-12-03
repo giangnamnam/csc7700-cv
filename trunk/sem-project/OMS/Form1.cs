@@ -37,7 +37,7 @@ namespace OMS.CVApp
             files = Directory.GetFiles(di.FullName + "\\testing\\stop\\positive\\");
             //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
 
-            timer1.Enabled = false;
+            /*timer1.Enabled = false;
             Image<Bgr, Byte> i = new Image<Bgr, byte>("stop-sign-model.png");
 
             PointF[] src = new PointF[4];
@@ -57,7 +57,7 @@ namespace OMS.CVApp
             i = i.WarpPerspective(homo, i.Width, i.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
 
 
-            imageBox1.Image = i;
+            imageBox1.Image = i;*/
 
 
             //camera = new Capture("C:\\Users\\Robert\\Desktop\\csc7600\\bmod-paper\\matlab\\crude_algorithm\\fount_out6.avi");
