@@ -1,7 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;
 
 namespace ReadAnnotationPoints {
   class AnnotationPoints {
@@ -9,14 +9,24 @@ namespace ReadAnnotationPoints {
 
     public AnnotationPoints(string filePath) {
       Points = new List<Point>();
-      using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read)) {
-        using (StreamReader sr = new StreamReader(fs)) {
-          while (!sr.EndOfStream) {
-            string[] line = sr.ReadLine().Split(',');
-            Points.Add(new Point(int.Parse(line[0]), int.Parse(line[1])));
+
+      if (File.Exists(filePath)) {
+        using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read)) {
+          using (StreamReader sr = new StreamReader(fs)) {
+            while (!sr.EndOfStream) {
+              string[] line = sr.ReadLine().Split(',');
+              Points.Add(new Point(int.Parse(line[0]), int.Parse(line[1])));
+            }
           }
         }
       }
+    }
+
+    public Point Get(int i) {
+      if (i < 0 || i >= Points.Count)
+        return new Point(-1, -1);
+      else
+        return Points[i];
     }
 
     public override string ToString() {
