@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AnnotationPoints.cs" />
     <Compile Include="CannyEdgeDetector.cs" />
+    <Compile Include="DrawAnnotation.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
