@@ -1,5 +1,5 @@
-imgFiles = dir();
-numPoints = 3;
+imgFiles = dir('4.jpg');
+numPoints = 4;
 
 for i = 1 : size(imgFiles),
   if imgFiles(i).isdir
@@ -9,6 +9,8 @@ for i = 1 : size(imgFiles),
   img = imread(imgFile);
   imshow(img);
   [x y] = ginput(numPoints);
+  x = round(x);
+  y = round(y);
   [~,imgFileName] = fileparts(imgFile);
   csvwrite([imgFileName '_annotate.txt'], [x, y]);
   close;
