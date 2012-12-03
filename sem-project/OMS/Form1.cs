@@ -37,15 +37,29 @@ namespace OMS.CVApp
             files = Directory.GetFiles(di.FullName + "\\testing\\stop\\positive\\");
             //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
 
-            //int  i = CvInvoke.cvFindFundamentalMat(
+            timer1.Enabled = false;
+            Image<Bgr, Byte> i = new Image<Bgr, byte>("stop-sign-model.png");
 
-            //double[] d = { 0, 0.001, 0};
-            //RotationVector3D m = new RotationVector3D(d);
+            PointF[] src = new PointF[4];
+            PointF[] des = new PointF[4];
 
-            //img = img.WarpPerspective(m.RotationMatrix, img.Width, img.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
+            src[0] = new PointF(0.5f, 0);
+            src[1] = new PointF(0, 0.5f);
+            src[2] = new PointF(1, 0.5f);
+            src[3] = new PointF(0.5f, 1);
+
+            des[0] = new PointF(0.5f, 0);
+            des[1] = new PointF(0, 0.5f);
+            des[2] = new PointF(1, 0.5f);
+            des[3] = new PointF(0.5f, 1);
+
+            HomographyMatrix homo = CameraCalibration.GetPerspectiveTransform(src, des);
+            i = i.WarpPerspective(homo, i.Width, i.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
 
 
-            //imageBox1.Image = img;
+            imageBox1.Image = i;
+
+
             //camera = new Capture("C:\\Users\\Robert\\Desktop\\csc7600\\bmod-paper\\matlab\\crude_algorithm\\fount_out6.avi");
             //camera.ImageGrabbed += new Emgu.CV.Capture.GrabEventHandler(camera_ImageGrabbed);
         }
