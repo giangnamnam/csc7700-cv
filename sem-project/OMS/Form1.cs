@@ -36,7 +36,7 @@ namespace OMS.CVApp
 
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
             di = di.Parent.Parent;
-            files = Directory.GetFiles(di.FullName + "\\testing\\warning\\positive\\", "*.jpg");
+            files = Directory.GetFiles(di.FullName + "\\testing\\stop\\positive\\", "*.jpg");
             //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
 
 
@@ -51,7 +51,7 @@ namespace OMS.CVApp
             //image = surf_stop_sign_detector_a.annotate(image);
             //image = surf_stop_sign_detector_b.annotate(image);
             //image = surf_stop_sign_detector_c.annotate(image);
-            //image = ii_stop_sign_detector.annotate(image);
+            image = ii_stop_sign_detector.annotate(image);
 
             /*image = image.PyrDown().PyrDown().PyrUp().PyrUp();
             
@@ -62,7 +62,7 @@ namespace OMS.CVApp
 
             imageBox1.Image = cannyEdges;*/
 
-            image = draw_annotation.annotate(image);
+            //image = draw_annotation.annotate(image);
 
             //image = octagon_stop_sign_detector.annotate(img2.Convert<Bgr, Byte>());
             imageBox2.Image = image;

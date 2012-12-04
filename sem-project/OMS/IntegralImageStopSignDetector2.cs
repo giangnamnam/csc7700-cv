@@ -22,7 +22,7 @@ namespace OMS.CVApp.SignDetector
         public double[] differenceVector(double[] g)
         {
             double[] d;
-            int N = g.length;
+            int N = g.Length;
             d = new double[N];
             int i;
             d[0] = 0;
@@ -35,29 +35,42 @@ namespace OMS.CVApp.SignDetector
 
         public double findMaxIndex(double[] v)
         {
-            int N = v.length;
+            int N = v.Length;
             int i;
-            double a = 0;
+            int a = 0;
             for (i = 0; i < N; i++)
             {
-                if (a < v[i])
+                if (v[a] > v[i])
                 {
-                    a = v[i];
+                    a = i;
                 }
             }
             return a;
         }
 
-        public double findMinIndex(double[] v)
+        public double findMean(double[] v)
         {
-            int N = v.length;
+            double N = v.Length;
             int i;
-            double a = 0;
+            double mu = 0;
             for (i = 0; i < N; i++)
             {
-                if (a > v[i])
+                mu = mu + v[i];
+            }
+            mu = mu / N;
+            return mu;
+        }
+
+        public double findMinIndex(double[] v)
+        {
+            int N = v.Length;
+            int i;
+            int a = 0;
+            for (i = 0; i < N; i++)
+            {
+                if (v[a] < v[i])
                 {
-                    a = v[i];
+                    a = i;
                 }
             }
             return a;
@@ -65,35 +78,39 @@ namespace OMS.CVApp.SignDetector
 
         public int findCenter(int[] v)
         {
-            int i;
+            /*int i;
             double c = 0;
             double sum = 0;
-            for (i = 0; i < v.length; i++)
+            for (i = 0; i < v.Length; i++)
             {
                 c = i * v[i];
                 sum = sum + v[i];
             }
             c = (double) c / sum;
-            return (int) c;
+            return (int) c;*/
+            int N = v.Length;
+            int i;
+            int a = 0;
+            for (i = 0; i < N; i++)
+            {
+                if (v[a] > v[i])
+                {
+                    a = i;
+                }
+            }
+            return a;
         }
 
         public double standardDeviation(int[] v)
         {
             int i;
-            double c = 0;
-            double sum = 0;
-            for (i = 0; i < v.length; i++)
-            {
-                c = i * v[i];
-                sum = sum + v[i];
-            }
-            c = (double) c / sum;
+            double c = (double)findCenter(v);
             double ssq = 0;
-            for (i = 0; i < v.length; i++)
+            for (i = 0; i < v.Length; i++)
             {
-                ssq = ssq + v[i]*(i - c)^2;
+                ssq = ssq + v[i]*Math.Pow((i - c),2);
             }
-            ssq = ssq / sum;
+            ssq = ssq / v.Sum();
             return Math.Sqrt(ssq);
         }
 
@@ -105,18 +122,18 @@ namespace OMS.CVApp.SignDetector
             int i;
             for (i = 0; i < N; i++)
             {
-                g[i] = a * Math.Exp((i-c)^2/(2*Math.Pow(sigma,2)));
+                g[i] = a * Math.Exp(Math.Pow((i-c),2)/(2*Math.Pow(sigma,2)));
             }
             return g;
         }
 
         public double avgSumSquaredError(int[] v, double[] g) {
-            int N = v.length;
+            int N = v.Length;
             int i;
             double ssq = 0;
             for (i = 0; i < N; i++)
             {
-                ssq = (v[i] - g[i])^2;
+                ssq = ssq + Math.Pow((v[i] - g[i]),2);
             }
             return ssq / (double)N;
         }
@@ -146,7 +163,7 @@ namespace OMS.CVApp.SignDetector
                 v[i] = 0;
                 for (j = 0; j < img.Cols; j++)
                 {
-                    v[i] = v[i] + img.Data[i, j, 0] + img.Data[j, i, 0];
+                    v[i] = v[i] + img.Data[i, j, 2] + img.Data[j, i, 2];
                 }
             }
 
@@ -154,28 +171,36 @@ namespace OMS.CVApp.SignDetector
             float s_x = orig.Cols / img.Cols;
 
             int c     = findCenter(v);
-            int sigma = standardDeviation(v);
+            double sigma = standardDeviation(v);
 
             double[] g;
             g = new double[img.Cols];
             g = fitGaussian(c, sigma, img.Cols);
 
-            double a, b, d = 0;
+            double a, b;
+            var d = new double[img.Cols];
             d = differenceVector(g);
             a = findMinIndex(d);
             b = findMaxIndex(d);
 
-            if (a < b) {
-	        var x = s_x * a;
-	        var y = s_y * a;
-	        var w = s_x * Math.abs(b - a);
-	        bar h = s_y * Math.abs(b - a);
-	
-	        Rectangle R    = new Rectangle(x, y, w, h);
-	        Rectangle[] ra = new Rectangle[1];
-	        ra[0] = R;
-	        return ra;
-            }
+            //if (a < b) {
+	            var x = s_x * a;
+	            var y = s_y * a;
+	            var w = s_x * Math.Abs(b - a);
+	            var h = s_y * Math.Abs(b - a);
+
+                Console.WriteLine("a=" + a + " b=" + b + " c=" + c + " s=" + sigma);
+                Console.WriteLine("\n");
+                Console.WriteLine("x=" + x + " y=" + y + " w=" + w + " h=" + h);
+                Console.WriteLine("\n");
+
+	            Rectangle R    = new Rectangle((int)x, (int)y, (int)w, (int)h);
+	            Rectangle[] ra = new Rectangle[1];
+	            ra[0] = R;
+	            return ra;
+            //}
+
+            //return null;
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
@@ -185,7 +210,7 @@ namespace OMS.CVApp.SignDetector
             if (items == null)
                 return image;
             foreach (Rectangle item in items)
-                image.Draw(item, new Bgr(Color.AliceBlue), 3);
+                image.Draw(item, new Bgr(Color.Pink), 5);
             return image;
         }
 
