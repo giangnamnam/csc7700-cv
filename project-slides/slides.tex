@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \usetheme{Copenhagen}
 \usecolortheme[named=red]{structure}
 
@@ -16,21 +17,26 @@
  \begin{itemize}
    \item We implemented the following:
    \begin{itemize}
-    \item Stop-sign detector
-    \item Warning sign detector
-    \item Pedestrian detector
+    \item Stop-sign detector, using the notion of integral
+          images from SURF
+    \item Warning sign detector, using perspective transformation
+          on a model image, then SURF 
    \end{itemize} 
  \end{itemize} 
 }
 
-\section{Stop Signs}
-\frame{ \frametitle{Stop Sign Detection, SURF}
+\frame{ \frametitle{Wrappers}
  \begin{itemize} 
-  \item We created a wrapper to the built-in EmguCV SURF detector
-        to use as a basis of comparison for our own method.
-  \item 
+  \item We created a wrapper to the pedestrian detector to gain
+        familiarity with the EmguCV library.
+  \item We also created a wrapper to the built-in EmguCV SURF detector
+        to use as a basis of comparison for our own methods.
  \end{itemize} 
 }
+
+\section{Stop Signs}
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{pos-stop.jpg} }
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{neg-stop.jpg} }
 
 \frame{ \frametitle{Stop Sign Detection, Integral Images}
  \begin{itemize} 
@@ -39,13 +45,16 @@
         SURF algorithm.
   \item To summarize the method, we use integral images from both
         the left-hand side (top left) and the right-hand side
-        (bottom right). Then we consider only the LHS and RHS
+        (bottom right) on only the R channel. Then we consider only 
+        the LHS and RHS
         integral images along the diagonal of the image.  We
         difference these, then fit a Gaussian curve to the
-        resulting vector.  We threshold the curve at one standard
-        deviation to form a bounding box for the stop sign.
+        resulting vector.  We threshold the curve at the points
+        of inflection to generate a bounding box for the sign.
  \end{itemize} 
 }
+
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{pos-stop-red.jpg} }
 
 \frame{ \frametitle{Stop Sign Detection, Integral Images}
  \begin{itemize} 
@@ -98,11 +107,18 @@
         $m$.
   \item Finally, we compute the standard deviation $\sigma$ of
         the vector $m$ and its centroid $c$, then apply a Gaussian
-        fit to the data in $m$.
-  \item Using the threshold value $\sigma_\epsilon$, we bound the
-        coordinates of the box surrounding the stop sign.
+        fit to the data in $m$.  We call the Gaussian fit $G$.
+  \item We then apply finite-differencing to the Gaussian fit $G$
+        to obtain $G'$, then find the indices at $min(G')$ and 
+        $max(G')$.
+  \item These indices form the bounding box for the image.
  \end{itemize} 
 }
+
+\frame{ \frametitle{} 
+\begin{center}
+\includegraphics[width=.7\textwidth]{gaussian.png} 
+\end{center} }
 
 \section{Warning Signs}
 
@@ -118,6 +134,11 @@
   \end{itemize} 
 }
 
+\frame{ \frametitle{} 
+\begin{center}
+\includegraphics[width=.7\textwidth]{pos-warning.jpg} 
+\end{center} }
+
 \frame{ \frametitle{Warning Signs}
   \begin{itemize}
     \item We first hand-annotated $N$ images using a MATLAB code.
@@ -130,6 +151,21 @@
     \item We then run SURF on the two images, then compare their
           feature descriptors to obtain a match within a threshold
           of $t_\epsilon$.
+  \end{itemize} 
+}
+
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{perspective.jpg} }
+
+\frame{ \frametitle{Perspective Transform}
+  \begin{itemize}
+    \item If $a_{x,y,z}$ is the point to be projected, $c_{x,y,z}$ 
+          is the camera, $\theta_{x,y,z}$ is the camera orientation and
+          $e_{x,y,z}$ is the position of the viewer relative to the 
+          display surface then $b_{x,y}$, the 2D projection of $a$, is 
+          given by:
+\begin{equation}
+\end{equation}
+    \item We give an example on the following slide.
   \end{itemize} 
 }
 
