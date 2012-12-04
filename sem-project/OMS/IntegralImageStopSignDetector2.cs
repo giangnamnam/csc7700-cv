@@ -80,18 +80,20 @@ namespace OMS.CVApp.SignDetector
         public double standardDeviation(int[] v)
         {
             int i;
-            double mu = 0;
+            double c = 0;
+            double sum = 0;
             for (i = 0; i < length(v); i++)
             {
-                mu = mu + v[i];
+                c = i * v[i];
+                sum = sum + v[i];
             }
-            mu = mu / length(v);
+            c = (double) c / sum;
             ssq = 0;
             for (i = 0; i < length(v); i++)
             {
-                ssq = ssq + (v[i] - mu)*(v[i] - mu);
+                ssq = ssq + v[i]*(i - c)^2;
             }
-            ssq = ssq / length(v);
+            ssq = ssq / sum;
             return Math.Sqrt(ssq);
         }
 
@@ -161,15 +163,17 @@ namespace OMS.CVApp.SignDetector
             a = findMinIndex(d);
             b = findMaxIndex(d);
 
-            x = s_x * a;
-            y = s_y * a;
-            w = s_x * (b - a);
-            h = s_y * (b - a);
-
-            Rectangle R = new Rectangle(x, y, w, h);
-            Rectangle[] ra = new Rectangle[1];
-            ra[0] = R;
-            return ra;
+            if (a < b) {
+	        x = s_x * a;
+	        y = s_y * a;
+	        w = s_x * abs(b - a);
+	        h = s_y * abs(b - a);
+	
+	        Rectangle R = new Rectangle(x, y, w, h);
+	        Rectangle[] ra = new Rectangle[1];
+	        ra[0] = R;
+	        return ra;
+            }
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
