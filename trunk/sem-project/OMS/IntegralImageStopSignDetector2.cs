@@ -22,8 +22,8 @@ namespace OMS.CVApp.SignDetector
         public double[] differenceVector(double[] g)
         {
             double[] d;
-            int N = length(g);
-            d = new double(N);
+            int N = g.length;
+            d = new double[N];
             int i;
             d[0] = 0;
             for (i = 1; i < N; i++)
@@ -35,7 +35,7 @@ namespace OMS.CVApp.SignDetector
 
         public double findMaxIndex(double[] v)
         {
-            int N = length(v);
+            int N = v.length;
             int i;
             double a = 0;
             for (i = 0; i < N; i++)
@@ -50,7 +50,7 @@ namespace OMS.CVApp.SignDetector
 
         public double findMinIndex(double[] v)
         {
-            int N = length(v);
+            int N = v.length;
             int i;
             double a = 0;
             for (i = 0; i < N; i++)
@@ -68,7 +68,7 @@ namespace OMS.CVApp.SignDetector
             int i;
             double c = 0;
             double sum = 0;
-            for (i = 0; i < length(v); i++)
+            for (i = 0; i < v.length; i++)
             {
                 c = i * v[i];
                 sum = sum + v[i];
@@ -82,14 +82,14 @@ namespace OMS.CVApp.SignDetector
             int i;
             double c = 0;
             double sum = 0;
-            for (i = 0; i < length(v); i++)
+            for (i = 0; i < v.length; i++)
             {
                 c = i * v[i];
                 sum = sum + v[i];
             }
             c = (double) c / sum;
-            ssq = 0;
-            for (i = 0; i < length(v); i++)
+            double ssq = 0;
+            for (i = 0; i < v.length; i++)
             {
                 ssq = ssq + v[i]*(i - c)^2;
             }
@@ -105,13 +105,13 @@ namespace OMS.CVApp.SignDetector
             int i;
             for (i = 0; i < N; i++)
             {
-                g[i] = a * Math.Exp((i-c)^2/(2*sigma^2));
+                g[i] = a * Math.Exp((i-c)^2/(2*Math.Pow(sigma,2)));
             }
             return g;
         }
 
         public double avgSumSquaredError(int[] v, double[] g) {
-            int N = length(v);
+            int N = v.length;
             int i;
             double ssq = 0;
             for (i = 0; i < N; i++)
@@ -138,7 +138,7 @@ namespace OMS.CVApp.SignDetector
             Image<Bgr, Byte> img = orig.Resize(S, S, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
 
             int[] v = new int[img.Rows];
-            int i, j, a = 0, b = 0, c = 0, d = 0;
+            int i, j; 
 
             // Compute sum of differences of RHS and LHS integral images.
             for (i = 0; i < img.Rows; i++)
@@ -159,17 +159,19 @@ namespace OMS.CVApp.SignDetector
             double[] g;
             g = new double[img.Cols];
             g = fitGaussian(c, sigma, img.Cols);
+
+            double a, b, d = 0;
             d = differenceVector(g);
             a = findMinIndex(d);
             b = findMaxIndex(d);
 
             if (a < b) {
-	        x = s_x * a;
-	        y = s_y * a;
-	        w = s_x * abs(b - a);
-	        h = s_y * abs(b - a);
+	        var x = s_x * a;
+	        var y = s_y * a;
+	        var w = s_x * Math.abs(b - a);
+	        bar h = s_y * Math.abs(b - a);
 	
-	        Rectangle R = new Rectangle(x, y, w, h);
+	        Rectangle R    = new Rectangle(x, y, w, h);
 	        Rectangle[] ra = new Rectangle[1];
 	        ra[0] = R;
 	        return ra;
