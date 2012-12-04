@@ -39,28 +39,6 @@ namespace OMS.CVApp
             files = Directory.GetFiles(di.FullName + "\\testing\\warning\\positive\\", "*.jpg");
             //files = Directory.GetFiles(di.FullName + "\\testing\\pedestrian\\positive\\");
 
-            timer1.Enabled = false;
-            Image<Bgr, Byte> i = new Image<Bgr, byte>("stop-sign-model.png");
-
-            PointF[] src = new PointF[4];
-            PointF[] des = new PointF[4];
-
-            src[0] = new PointF(0.5f, 0);
-            src[1] = new PointF(0, 0.5f);
-            src[2] = new PointF(1, 0.5f);
-            src[3] = new PointF(0.5f, 1);
-
-            des[0] = new PointF(0.5f, 0);
-            des[1] = new PointF(0, 0.5f);
-            des[2] = new PointF(1, 0.5f);
-            des[3] = new PointF(0.5f, 1);
-
-            //HomographyMatrix homo = CvInvoke.cvGetPerspectiveTransform(src, des, );
-            HomographyMatrix homo = CameraCalibration.GetPerspectiveTransform(src, des);
-            i = i.WarpPerspective(homo, i.Width, i.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
-
-
-            imageBox1.Image = i;
 
 
             //camera = new Capture("C:\\Users\\Robert\\Desktop\\csc7600\\bmod-paper\\matlab\\crude_algorithm\\fount_out6.avi");
@@ -68,6 +46,7 @@ namespace OMS.CVApp
         }
 
         void process(Image<Bgr, Byte> image){
+            imageBox1.Image = image;
             //image = pedestrian_detector.annotate(image);
             //image = surf_stop_sign_detector_a.annotate(image);
             //image = surf_stop_sign_detector_b.annotate(image);
@@ -86,7 +65,7 @@ namespace OMS.CVApp
             image = draw_annotation.annotate(image);
 
             //image = octagon_stop_sign_detector.annotate(img2.Convert<Bgr, Byte>());
-            imageBox1.Image = image;
+            imageBox2.Image = image;
         }
 
         void camera_ImageGrabbed(object sender, EventArgs e){
