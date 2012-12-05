@@ -8,15 +8,6 @@ namespace OMS.UI {
     public static string Type(DetectionType type) {
       string name = "";
       switch (type) {
-        case DetectionType.CONSTRUCTION:
-          name = "Construction";
-          break;
-        case DetectionType.CROSSWALK:
-          name = "Crosswalk";
-          break;
-        case DetectionType.GUIDANCE:
-          name = "Guidance";
-          break;
         case DetectionType.PEDESTRIAN:
           name = "Pedestrian";
           break;
@@ -34,9 +25,6 @@ namespace OMS.UI {
       string name = "";
 
       switch (alg) {
-        case DetectionAlg.EDGE_CANNY:
-          name = "Canny Edge";
-          break;
         case DetectionAlg.PED_HOG:
           name = "Hog Pedestrian";
           break;
