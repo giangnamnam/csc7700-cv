@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace OMS.UI {
   public enum DetectionAlg {
     PED_HOG,
@@ -11,5 +7,6 @@ namespace OMS.UI {
     STOPSIGN_SURF,
     WARN_OSURF,
     WARN_SURF,
+    TEXT_TESSERACT,
   }
 }

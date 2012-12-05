@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OMS</RootNamespace>
     <AssemblyName>OMS</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -57,6 +57,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Emgu.CV.GPU.dll</HintPath>
     </Reference>
+    <Reference Include="Emgu.CV.OCR, Version=2.4.0.1717, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Emgu.CV.OCR.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV.UI, Version=2.4.0.1717, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Emgu.CV.UI.dll</HintPath>
@@ -87,13 +91,15 @@
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
     <Compile Include="DrawAnnotation.cs" />
+    <Compile Include="IntegralImageStopSignDetector2.cs" />
     <Compile Include="OctagonStopSignDetector.cs" />
     <Compile Include="EdgeDetector.cs" />
-    <Compile Include="IntegralImageStopSignDetector.cs" />
     <Compile Include="HogPedestrianDetector.cs" />
     <Compile Include="OrientedSurfWarningSignDetector.cs" />
     <Compile Include="SurfDetector.cs" />
     <Compile Include="SurfWarningSignDetector.cs" />
+    <Compile Include="TesseractTextDetector.cs" />
+    <Compile Include="TextDetector.cs" />
     <Compile Include="UI\DetectionAlg.cs" />
     <Compile Include="UI\DetectionDesc.cs" />
     <Compile Include="UI\DetectionType.cs" />
@@ -131,6 +137,7 @@
     </Compile>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

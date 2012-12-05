@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace OMS.UI {
   public static class DetectionDesc {
     public static string Type(DetectionType type) {
@@ -36,6 +32,9 @@ namespace OMS.UI {
           break;
         case DetectionAlg.STOPSIGN_SURF:
           name = "Surf";
+          break;
+        case DetectionAlg.TEXT_TESSERACT:
+          name = "Text";
           break;
         case DetectionAlg.WARN_OSURF:
           name = "OSurf";

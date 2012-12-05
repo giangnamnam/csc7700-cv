@@ -17,6 +17,7 @@ namespace OMS.CVApp {
     private int imgIndex;
     private ImgList curImgList;
     private Stats stats;
+    private const int NUM_DET_TYPES = 3;
     //--------------------------------------------------------
     #endregion
 
@@ -35,26 +36,30 @@ namespace OMS.CVApp {
     private void Form2_Load(object sender, EventArgs e) {
       lblLoading.Visible = false;
 
-      typeToAlg = new DetectionAlg[3][];
+      typeToAlg = new DetectionAlg[NUM_DET_TYPES][];
       typeToAlg[(int)DetectionType.PEDESTRIAN] = new DetectionAlg[]{
         DetectionAlg.PED_HOG};
 
       typeToAlg[(int)DetectionType.STOP] = new DetectionAlg[]{
         DetectionAlg.STOPSIGN_SURF, 
         DetectionAlg.STOPSIGN_INT_IMG,
-        DetectionAlg.STOPSIGN_OCT};
+        DetectionAlg.STOPSIGN_OCT,
+        DetectionAlg.TEXT_TESSERACT,
+      };
 
       typeToAlg[(int)DetectionType.WARNING] = new DetectionAlg[]{
+        DetectionAlg.TEXT_TESSERACT,
         DetectionAlg.WARN_OSURF, 
-        DetectionAlg.WARN_SURF};
+        DetectionAlg.WARN_SURF,
+      };
 
-      for (int i = 0; i < 3; i++)
+      for (int i = 0; i < NUM_DET_TYPES; i++)
         cmbType.Items.Add(DetectionDesc.Type((DetectionType)i));
 
       cmbType.SelectedIndex = -1;
 
-      typeToImgList = new ImgList[3];
-      for (int i = 0; i < 3; i++)
+      typeToImgList = new ImgList[NUM_DET_TYPES];
+      for (int i = 0; i < NUM_DET_TYPES; i++)
         typeToImgList[i] = new ImgList((DetectionType)i);
       imgIndex = 0;
       curImgList = null;
@@ -64,8 +69,9 @@ namespace OMS.CVApp {
         {DetectionAlg.STOPSIGN_INT_IMG, new IntegralImageStopSignDetector()},
         {DetectionAlg.STOPSIGN_OCT, new OctagonStopSignDetector()},
         {DetectionAlg.STOPSIGN_SURF, new SurfStopSignDetector()},
+        //{DetectionAlg.TEXT_TESSERACT, new TesseractTextDetector()},
         {DetectionAlg.WARN_OSURF, new OrientedSurfWarningSignDetector()},
-        {DetectionAlg.WARN_SURF, new SurfStopSignDetector()}
+        {DetectionAlg.WARN_SURF, new SurfStopSignDetector()},
       };
 
       imgMain.Image = ImgList.GetImageFromPath("UI\\PickAType.jpg");
