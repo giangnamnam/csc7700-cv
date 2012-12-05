@@ -23,6 +23,7 @@ namespace OMS.CVApp
         Detector surf_stop_sign_detector_c = new SurfDetector("stop-sign-model-blank.png");
 
         Detector draw_annotation;
+        TextDetector text_detector = new TesseractTextDetector();
 
         Detector octagon_stop_sign_detector = new OctagonStopSignDetector();
         Detector ii_stop_sign_detector = new IntegralImageStopSignDetector();
@@ -47,10 +48,14 @@ namespace OMS.CVApp
 
         void process(Image<Bgr, Byte> image){
             imageBox1.Image = image;
+            
+            //image = text_detector.annotate(image);
+            //debug.Text += text_detector+ "\r\n";
+
             //image = pedestrian_detector.annotate(image);
-            //image = surf_stop_sign_detector_a.annotate(image);
-            //image = surf_stop_sign_detector_b.annotate(image);
-            //image = surf_stop_sign_detector_c.annotate(image);
+            image = surf_stop_sign_detector_a.annotate(image);
+            image = surf_stop_sign_detector_b.annotate(image);
+            image = surf_stop_sign_detector_c.annotate(image);
             image = ii_stop_sign_detector.annotate(image);
 
             /*image = image.PyrDown().PyrDown().PyrUp().PyrUp();
