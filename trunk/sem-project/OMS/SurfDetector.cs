@@ -79,8 +79,8 @@ namespace OMS.CVApp
             Image<Bgr, Byte> image = i.Clone();
             find(i);
 
-            image = Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, i.Convert<Gray, Byte>(), observedKeyPoints,
-              indices, new Bgr(255, 255, 255), new Bgr(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DEFAULT);
+            //image = Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, i.Convert<Gray, Byte>(), observedKeyPoints,
+            //  indices, new Bgr(255, 255, 255), new Bgr(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DEFAULT);
 
             if (homography != null){  //draw a rectangle along the projected model
                 Rectangle rect = modelImage.ROI;

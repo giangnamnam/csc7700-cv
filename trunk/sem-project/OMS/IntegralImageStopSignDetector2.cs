@@ -110,7 +110,13 @@ namespace OMS.CVApp.SignDetector
             {
                 ssq = ssq + v[i]*Math.Pow((i - c),2);
             }
-            ssq = ssq / v.Sum();
+
+            long sum = 0;
+            foreach (int s in v)
+                sum += s;
+
+            ssq = ssq / sum;
+
             return Math.Sqrt(ssq);
         }
 
@@ -152,7 +158,11 @@ namespace OMS.CVApp.SignDetector
             {
                 S = orig.Cols;
             }
-            Image<Gray, Byte> img = red.Resize(S, S, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            //Image<Gray, Byte> img = red.Resize(S, S, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            //orig = img.Convert<Bgr, Byte>();
+
+            Image<Bgr, Byte> img = orig.Resize(S, S, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+
 
             int[] v = new int[img.Rows];
             int i, j; 
@@ -163,7 +173,7 @@ namespace OMS.CVApp.SignDetector
                 v[i] = 0;
                 for (j = 0; j < img.Cols; j++)
                 {
-                    v[i] = v[i] + img.Data[i, j, 0] + img.Data[j, i, 0];
+                    v[i] = v[i] + img.Data[i, j, 2] + img.Data[j, i, 2];
                 }
             }
 
@@ -214,7 +224,7 @@ namespace OMS.CVApp.SignDetector
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            Image<Bgr, Byte> img = i.Clone();
+            /*Image<Bgr, Byte> img = i.Clone();
             Image<Gray, Byte> image = GetRedPixelMask(img);
 
             Rectangle[] items = find(i);
@@ -222,7 +232,16 @@ namespace OMS.CVApp.SignDetector
                 return img.Convert<Bgr, Byte>();
             foreach (Rectangle item in items)
                 image.Draw(item, new Gray(255), 5);
-            return image.Convert<Bgr, Byte>();
+            return image.Convert<Bgr, Byte>();*/
+
+            Image<Bgr, Byte> img = i.Clone();
+
+            Rectangle[] items = find(i);
+            if (items == null)
+                return img;
+            foreach (Rectangle item in items)
+                img.Draw(item, new Bgr(Color.Pink), 5);
+            return img.Convert<Bgr, Byte>();
         }
 
         public object Rectangle { get; set; }
