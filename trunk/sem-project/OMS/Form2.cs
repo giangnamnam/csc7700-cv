@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,8 +17,11 @@ namespace OMS.CVApp {
     private ImgList[] typeToImgList;
     private int imgIndex;
     private ImgList curImgList;
-    private Stats stats;
+    private Stats curStats;
+    private Stats prevStats;
+    private double calcStatProgress;
     private const int NUM_DET_TYPES = 3;
+    private bool firstStatRun;
     //--------------------------------------------------------
     #endregion
 
@@ -44,11 +48,9 @@ namespace OMS.CVApp {
         DetectionAlg.STOPSIGN_SURF, 
         DetectionAlg.STOPSIGN_INT_IMG,
         DetectionAlg.STOPSIGN_OCT,
-        DetectionAlg.TEXT_TESSERACT,
       };
 
       typeToAlg[(int)DetectionType.WARNING] = new DetectionAlg[]{
-        DetectionAlg.TEXT_TESSERACT,
         DetectionAlg.WARN_OSURF, 
         DetectionAlg.WARN_SURF,
       };
@@ -69,14 +71,16 @@ namespace OMS.CVApp {
         {DetectionAlg.STOPSIGN_INT_IMG, new IntegralImageStopSignDetector()},
         {DetectionAlg.STOPSIGN_OCT, new OctagonStopSignDetector()},
         {DetectionAlg.STOPSIGN_SURF, new SurfStopSignDetector()},
-        {DetectionAlg.TEXT_TESSERACT, new TesseractTextDetector()},
         {DetectionAlg.WARN_OSURF, new OrientedSurfWarningSignDetector()},
         {DetectionAlg.WARN_SURF, new SurfWarningSignDetector()},
       };
 
       imgMain.Image = ImgList.GetImageFromPath("UI\\PickAType.jpg");
 
-      stats = new Stats();
+      curStats = new Stats();
+      prevStats = curStats;
+      calcStatProgress = 0;
+      firstStatRun = true;
       btnFocus.Focus();
     }
 
@@ -119,7 +123,7 @@ namespace OMS.CVApp {
         curDetector = algToDetector[algs[cmbAlg.SelectedIndex]];
       imgIndex = 0;
       UpdateMainImg();
-      UpdateStats();
+      //UpdateStats();
     }
 
     private void btnImgPrev_Click(object sender, EventArgs e) {
@@ -154,19 +158,52 @@ namespace OMS.CVApp {
     }
 
     private void tmrStats_Tick(object sender, EventArgs e) {
-      if (stats.Ready) {
-        if (stats.TotalTime < 0)
+      if (curStats.Ready) {
+        if (curStats.TotalTime < 0)
           lblTotalTime.Text = "N/A";
         else
-          lblTotalTime.Text = stats.TotalTime.ToString() + " ms";
+          lblTotalTime.Text = curStats.TotalTime.ToString() + " ms";
 
-        if (stats.AvgTime < 0)
+        if (curStats.AvgTime < 0)
           lblAvgTime.Text = "N/A";
         else
-          lblAvgTime.Text = stats.AvgTime.ToString() + " ms";
+          lblAvgTime.Text = curStats.AvgTime.ToString() + " ms";
 
+        if (curStats.Precision < 0)
+          lblPrecision.Text = "N/A";
+        else
+          lblPrecision.Text = curStats.Precision.ToString() + " %";
+
+        if (!firstStatRun) {
+          if (prevStats.TotalTime < 0 || curStats.TotalTime < prevStats.TotalTime)
+            lblTotalTime.ForeColor = Color.Green;
+          else if (curStats.TotalTime > prevStats.TotalTime)
+            lblTotalTime.ForeColor = Color.Red;
+          else
+            lblTotalTime.ForeColor = Color.White;
+
+          if (prevStats.AvgTime < 0 || curStats.AvgTime < prevStats.AvgTime)
+            lblAvgTime.ForeColor = Color.Green;
+          else if (curStats.AvgTime > prevStats.AvgTime)
+            lblAvgTime.ForeColor = Color.Red;
+          else
+            lblAvgTime.ForeColor = Color.White;
+
+          if (prevStats.Precision < 0 || curStats.Precision < prevStats.Precision)
+            lblPrecision.ForeColor = Color.Green;
+          else if (curStats.Precision > prevStats.Precision)
+            lblPrecision.ForeColor = Color.Red;
+          else
+            lblPrecision.ForeColor = Color.White;
+        }
+
+        firstStatRun = false;
+        lblLoading.Text = "LOADING STATS... ";
         lblLoading.Visible = false;
         tmrStats.Enabled = false;
+      }
+      else {
+        lblLoading.Text = "LOADING STATS... " + Math.Round(calcStatProgress * 100) + "%";
       }
     }
 
@@ -180,11 +217,14 @@ namespace OMS.CVApp {
     #region Helper Methods
     //--------------------------------------------------------
     private void UpdateStats() {
+      prevStats = curStats.Copy();
+
       lblLoading.Visible = true;
       ClearStats();
       Refresh();
 
-      stats.Reset();
+      curStats.Reset();
+      calcStatProgress = 0;
       tmrStats.Enabled = true;
 
       Thread statThread = new Thread(CalcStats);
@@ -194,40 +234,29 @@ namespace OMS.CVApp {
     private void ClearStats() {
       lblTotalTime.Text = "";
       lblAvgTime.Text = "";
-      lblWeightedTime.Text = "";
-      lblRecall.Text = "";
       lblPrecision.Text = "";
     }
 
     private void CalcStats() {
-      int numTestedImages = 0;
       DateTime start;
       TimeSpan totalTime = TimeSpan.Zero;
       for (int i = 0; i < curImgList.PosFiles.Length; i++) {
+        start = DateTime.Now;
         try {
-          start = DateTime.Now;
-          curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex].Substring(0, curImgList.PosFiles[imgIndex].Length - 4) + "_annotate.txt");
+          curDetector.setAnnotationFile(curImgList.PosFiles[i].Substring(0, curImgList.PosFiles[i].Length - 4) + "_annotate.txt");
           curDetector.annotate(curImgList.PosImgs[i]);
-          totalTime += DateTime.Now.Subtract(start);
-          numTestedImages++;
         }
         catch {
-          // Problem annotating image. Don't count it towards 
-          // average, just go on to next image.
+          // Problem annotating image
         }
+        totalTime += DateTime.Now.Subtract(start);
+        calcStatProgress = ((double)i) / curImgList.PosFiles.Length;
       }
 
-      if (numTestedImages < curImgList.PosFiles.Length)
-        stats.TotalTime = -1;
-      else
-        stats.TotalTime = Math.Round(totalTime.TotalMilliseconds);
+      curStats.TotalTime = Math.Round(totalTime.TotalMilliseconds);
+      curStats.AvgTime = Math.Round(totalTime.TotalMilliseconds / curImgList.PosFiles.Length, 2);
 
-      if (numTestedImages == 0)
-        stats.AvgTime = -1;
-      else
-        stats.AvgTime = Math.Round(totalTime.TotalMilliseconds / numTestedImages, 2);
-
-      stats.Done();
+      curStats.Done();
     }
 
     private void UpdateMainImg() {
@@ -239,16 +268,24 @@ namespace OMS.CVApp {
 
     void Process() {
       try {
-        curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex].Substring(0, curImgList.PosFiles[imgIndex].Length-4)+"_annotate.txt");
+        curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex].Substring(0, curImgList.PosFiles[imgIndex].Length - 4) + "_annotate.txt");
         imgMain.Image = curDetector.annotate(curImgList.PosImgs[imgIndex].Copy());
       }
       catch {
-        lblWarning.Text = "Error Annotating Image";
+        lblWarning.Text = "Couldn't Find Anything";
       }
     }
 
     void camera_ImageGrabbed(object sender, EventArgs e) {
       //process(camera.RetrieveBgrFrame());
+    }
+
+    private void btnCalculateStats_Click(object sender, EventArgs e) {
+      lblPrevTotalTime.Text = lblTotalTime.Text;
+      lblPrevAvgTime.Text = lblAvgTime.Text;
+      lblPrevPrecision.Text = lblPrecision.Text;
+
+      UpdateStats();
     }
     //--------------------------------------------------------
     #endregion
