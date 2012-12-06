@@ -13,5 +13,6 @@ namespace OMS.CVApp
     {
         public abstract Rectangle[] find(Image<Bgr, Byte> image);
         public abstract Image<Bgr, Byte> annotate(Image<Bgr, Byte> image);
+        public virtual void setAnnotationFile(String s) { }
     }
 }
