@@ -13,6 +13,7 @@ namespace OMS.CVApp {
     //--------------------------------------------------------
     private DetectionAlg[][] typeToAlg;
     private Dictionary<DetectionAlg, Detector> algToDetector;
+    private Dictionary<DetectionAlg, double> algToPrecision;
     private Detector curDetector;
     private ImgList[] typeToImgList;
     private int imgIndex;
@@ -75,6 +76,15 @@ namespace OMS.CVApp {
         {DetectionAlg.STOPSIGN_SURF, new SurfStopSignDetector()},
         {DetectionAlg.WARN_OSURF, new OrientedSurfWarningSignDetector()},
         {DetectionAlg.WARN_SURF, new SurfWarningSignDetector()},
+      };
+
+      algToPrecision = new Dictionary<DetectionAlg, double>() {
+        {DetectionAlg.PED_HOG, -1},
+        {DetectionAlg.STOPSIGN_INT_IMG, -1},
+        {DetectionAlg.STOPSIGN_OCT, -1},
+        {DetectionAlg.STOPSIGN_SURF, -1},
+        {DetectionAlg.WARN_OSURF, -1},
+        {DetectionAlg.WARN_SURF, -1}
       };
 
       imgMain.Image = ImgList.GetImageFromPath("UI\\PickAType.jpg");
@@ -223,6 +233,14 @@ namespace OMS.CVApp {
     private void UpdateStats() {
       prevStats = curStats.Copy();
 
+      if (statThread != null) {
+        statThreadKill = true;
+        statThread.Join();
+        lblLoading.Text = "LOADING STATS... ";
+        tmrStats.Enabled = false;
+        statThreadKill = false;
+      }
+
       lblLoading.Visible = true;
       ClearStats();
       Refresh();
@@ -230,15 +248,6 @@ namespace OMS.CVApp {
       curStats.Reset();
       calcStatProgress = 0;
       tmrStats.Enabled = true;
-
-      if (statThread != null) {
-        statThreadKill = true;
-        statThread.Join();
-        lblLoading.Text = "LOADING STATS... ";
-        lblLoading.Visible = false;
-        tmrStats.Enabled = false;
-        statThreadKill = false;
-      }
 
       statThread = new Thread(CalcStats);
       statThread.Start();
@@ -266,13 +275,13 @@ namespace OMS.CVApp {
         calcStatProgress = ((double)i) / curImgList.PosFiles.Length;
 
         if (statThreadKill) {
-          statThreadKill = false;
           return;
         }
       }
 
       curStats.TotalTime = Math.Round(totalTime.TotalMilliseconds);
       curStats.AvgTime = Math.Round(totalTime.TotalMilliseconds / curImgList.PosFiles.Length, 2);
+      curStats.Precision = algToPrecision[typeToAlg[cmbType.SelectedIndex][cmbAlg.SelectedIndex]];
 
       curStats.Done();
     }
