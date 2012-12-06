@@ -13,16 +13,27 @@ namespace OMS.CVApp.SignDetector
 {
     class SurfWarningSignDetector : WarningSignDetector
     {
-        SurfDetector surf = new SurfDetector("models\\pedestrians");
+        List<Detector> detectors = new List<Detector>();
+
+        public SurfWarningSignDetector()
+        {
+            detectors.Add(new SurfDetector("models\\pedestrians.jpg"));
+            detectors.Add(new SurfDetector("models\\slow.jpg"));
+        }
 
         public override Rectangle[] find(Image<Bgr, Byte> image)
         {
-            return surf.find(image);
+            /*foreach (Detector d in detectors)
+                d.find(image);*/
+            return null;
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            return surf.annotate(i);
+            Image<Bgr, Byte> image = i.Clone();
+            foreach (Detector d in detectors)
+                image = d.annotate(image);
+            return image;
         }
     }
 }

@@ -13,21 +13,46 @@ namespace OMS.CVApp.SignDetector
 {
     class OrientedSurfWarningSignDetector : WarningSignDetector
     {
-        public override Rectangle[] find(Image<Bgr, Byte> image)
+        Image<Bgr, Byte> image;
+        String annotation_file = "";
+        Detector surf = new SurfWarningSignDetector();
+
+        public void setAnnotationFile(String f)
         {
-            Console.WriteLine("Unimplemented: find() in OrientedSurfWarningSignDetector.");
-            return null;
+            annotation_file = f;
+        }
+
+        public override Rectangle[] find(Image<Bgr, Byte> i)
+        {
+            if (annotation_file == "")
+                return null;
+
+            image = i.Clone();
+            List<Point> points = (new ReadAnnotationPoints.AnnotationPoints(annotation_file)).Points;
+
+            PointF[] src = new PointF[4];
+            PointF[] des = new PointF[4];
+
+            src[0] = new PointF(10, 200f);
+            src[1] = new PointF(200, 10f);
+            src[2] = new PointF(380, 200f);
+            src[3] = new PointF(200, 380f);
+
+            for (int x = 0; x < 4; x++)
+                des[x] = points[x];
+
+            HomographyMatrix homo = CameraCalibration.GetPerspectiveTransform(src, des);
+            image = image.WarpPerspective(homo, image.Width, image.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR,
+                Emgu.CV.CvEnum.WARP.CV_WARP_INVERSE_MAP, new Bgr(200, 0, 0));
+
+            image.ROI = new Rectangle(0, 0, 400, 400);
+
+            return surf.find(image);
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            Image<Bgr, Byte> image = i.Clone();
-            Rectangle[] items = find(i);
-            if (items == null)
-                return image;
-            foreach (Rectangle item in items)
-                image.Draw(item, new Bgr(Color.DarkGreen), 3);
-            return image;
+            return surf.annotate(i);
         }
     }
 }
