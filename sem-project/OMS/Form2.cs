@@ -20,6 +20,8 @@ namespace OMS.CVApp {
     private Stats curStats;
     private Stats prevStats;
     private double calcStatProgress;
+    private Thread statThread;
+    private bool statThreadKill;
     private const int NUM_DET_TYPES = 3;
     private bool firstStatRun;
     //--------------------------------------------------------
@@ -81,6 +83,8 @@ namespace OMS.CVApp {
       prevStats = curStats;
       calcStatProgress = 0;
       firstStatRun = true;
+      statThread = null;
+      statThreadKill = false;
       btnFocus.Focus();
     }
 
@@ -227,7 +231,16 @@ namespace OMS.CVApp {
       calcStatProgress = 0;
       tmrStats.Enabled = true;
 
-      Thread statThread = new Thread(CalcStats);
+      if (statThread != null) {
+        statThreadKill = true;
+        statThread.Join();
+        lblLoading.Text = "LOADING STATS... ";
+        lblLoading.Visible = false;
+        tmrStats.Enabled = false;
+        statThreadKill = false;
+      }
+
+      statThread = new Thread(CalcStats);
       statThread.Start();
     }
 
@@ -251,6 +264,11 @@ namespace OMS.CVApp {
         }
         totalTime += DateTime.Now.Subtract(start);
         calcStatProgress = ((double)i) / curImgList.PosFiles.Length;
+
+        if (statThreadKill) {
+          statThreadKill = false;
+          return;
+        }
       }
 
       curStats.TotalTime = Math.Round(totalTime.TotalMilliseconds);

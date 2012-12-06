@@ -325,7 +325,7 @@
       // 
       // tmrPlay
       // 
-      this.tmrPlay.Interval = 1600;
+      this.tmrPlay.Interval = 1500;
       this.tmrPlay.Tick += new System.EventHandler(this.tmrPlay_Tick);
       // 
       // btnCalculateStats
