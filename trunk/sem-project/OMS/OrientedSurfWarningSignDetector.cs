@@ -22,7 +22,8 @@ namespace OMS.CVApp.SignDetector
             annotation_file = f;
         }
 
-        public override Rectangle[] find(Image<Bgr, Byte> i)
+        // orients the image so that the plane of the sign is parallel to the camera
+        Image<Bgr, Byte> orient(Image<Bgr, Byte> i)
         {
             if (annotation_file == "")
                 return null;
@@ -47,12 +48,17 @@ namespace OMS.CVApp.SignDetector
 
             image.ROI = new Rectangle(0, 0, 400, 400);
 
-            return surf.find(image);
+            return image;
+        }
+
+        public override Rectangle[] find(Image<Bgr, Byte> i)
+        {
+            return null;
         }
 
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
-            return surf.annotate(i);
+            return surf.annotate(orient(i));
         }
     }
 }
