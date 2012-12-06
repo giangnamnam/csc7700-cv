@@ -9,7 +9,6 @@
 \date{\today}
 
 \begin{document}
-
 \maketitle
 
 \section{Introduction and Overview}
@@ -19,8 +18,8 @@
    \begin{itemize}
     \item Stop-sign detector, using the notion of integral
           images from SURF
-    \item Warning sign detector, using a perspective transformation
-          to transform the image to be parallel to the viewing plane, then SURF 
+    \item Warning sign detector, using perspective transformation
+          on a model image, then SURF 
    \end{itemize} 
  \end{itemize} 
 }
@@ -33,6 +32,8 @@
         to use as a basis of comparison for our own methods.
  \end{itemize} 
 }
+
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{uml.png} }
 
 \section{Stop Signs}
 
@@ -68,7 +69,7 @@
   \begin{equation}
    \mathcal{I}_{-}(x,y) = \sum_{i=0}^{n_x} \sum_{j=0}^{n_y} I(x,y)
   \end{equation}
-  \item We compute the integral image using the following formula:
+  \item We compute the integral image at a pixel using the following formula:
   \begin{equation}
    \mathcal{I}_{x,y} = \mathcal{I}_{x-1,y}+ \mathcal{I}_{x,y-1}- \mathcal{I}_{x-1,y-1}
   \end{equation}
@@ -143,20 +144,19 @@
           on out-of-plane-rotated signs. 
     \item In particular, we assume that we know the perspective
           information of an out-of-plane-rotated sign.  We apply
-          a perspective transform to the input image to make the sign
-          upright and parallel to the viewing plane, apply
-          SURF to the image using each model, and match.
+          a perspective transform to a model sign, then apply
+          SURF to the two images, then match.
   \end{itemize} 
 }
 
 \frame{ \frametitle{} 
 \begin{center}
-\includegraphics[width=.7\textwidth]{pos-warning.jpg} 
+\includegraphics[width=.5\textwidth]{pos-warning.jpg} 
 \end{center} }
 
 \frame{ \frametitle{Warning Signs}
   \begin{itemize}
-    \item We first hand-annotated $N$=73 images using a MATLAB code.
+    \item We first hand-annotated $N$ images using a MATLAB code.
     \item From this, we extracted a set of $4N$ points which
           give the vertices of the warning sign.  We then applied
           \texttt{getPerspectiveTransform()} on the points, which
@@ -169,8 +169,6 @@
   \end{itemize} 
 }
 
-\frame{ \frametitle{} \includegraphics[width=\textwidth]{perspective.jpg} }
-
 \frame{ \frametitle{Perspective Transform}
   \begin{itemize}
     \item If $a_{x,y,z}$ is the point to be projected, $c_{x,y,z}$ 
@@ -178,26 +176,71 @@
           $e_{x,y,z}$ is the position of the viewer relative to the 
           display surface then $b_{x,y}$, the 2D projection of $a$, is 
           given by:
+\tiny
 \begin{equation}
+\begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix} =
+\begin{bmatrix}
+                1   &  0   &  0 \\
+                0   &  cos(\theta_x) &  -sin(\theta_x) \\ 
+                0   &  sin(\theta_x) &  cos(\theta_x)  
+\end{bmatrix}
+\begin{bmatrix}
+                cos(\theta_y) & 0 & sin(\theta_y) \\ 
+                0   &  1   &  0 \\
+               -sin(\theta_y) & 0 & cos(\theta_y) 
+\end{bmatrix}
+\begin{bmatrix}
+                cos(\theta_z) &  -sin(\theta_z) & 0 \\ 
+                sin(\theta_z) &  cos(\theta_z)  & 0 \\ 
+                0   &  0   &  1 
+\end{bmatrix}
+(
+\begin{bmatrix} a_x \\ a_y \\ a_z \end{bmatrix} -
+\begin{bmatrix} c_x \\ c_y \\ c_z \end{bmatrix}
+).
 \end{equation}
-    \item We give an example on the following slide.
+\normalsize
+    \item A visual example follows.
   \end{itemize} 
 }
+
+\frame{ \frametitle{} \includegraphics[width=\textwidth]{perspective.jpg} }
 
 \section{Results and Conclusion}
 
 \frame{ \frametitle{Results}
   \begin{itemize}
+    \item We considered there to be a match if at least
+          50\% of the sign fell within the area of the
+          bounding box. 
     \item The following table summarizes our results:
   \end{itemize} 
-  \begin{tabular}{llll}
-  A & B & C & D \\
-  & & &  \\
+  \vspace{8pt}
+  \begin{tabular}{lc}
+  Surf Stop Sign Detector             &   \\
+  Integral Images Stop Sign Detector  &   \\ 
+  Surf Warning Sign Detector          &   \\
+  Oriented Surf Warning Sign Detector &   \\
   \end{tabular}
+  \vspace{8pt}
   \begin{itemize}
     \item As is evident in the above, our accuracy for \ldots was an 
     abysmal $N\%$.
   \end{itemize} 
+}
+
+\frame{ \frametitle{Conclusion}
+ \begin{itemize}
+  \item Bearing in mind that the accuracy for our integral image 
+        detector was much less than the accuracy for the built-in 
+        SURF algorithm, we conclude that in the development of
+        computer vision algorithms, one should:
+  \begin{enumerate}
+   \item Not over-utilize heuristics, and 
+   \item Develop the algorithm starting from optimized versions
+         of existing algorithms.
+  \end{enumerate} 
+ \end{itemize} 
 }
 
 \end{document}
