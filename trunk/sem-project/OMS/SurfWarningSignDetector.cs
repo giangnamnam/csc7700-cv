@@ -26,6 +26,7 @@ namespace OMS.CVApp.SignDetector
             detectors.Add(new SurfDetector("models\\stop_ahead.jpg"));
             detectors.Add(new SurfDetector("models\\DividedHighwayBegins.jpg"));
             detectors.Add(new SurfDetector("models\\DividedHighwayEnds.jpg"));
+            detectors.Add(new SurfDetector("models\\slippery.jpg"));
         }
 
         public override Rectangle[] find(Image<Bgr, Byte> image)
