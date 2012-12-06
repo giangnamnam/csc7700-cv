@@ -17,7 +17,10 @@ namespace OMS.CVApp.SignDetector
 
         public SurfWarningSignDetector()
         {
+            detectors.Add(new SurfDetector("models\\crosswalk.jpg"));
             detectors.Add(new SurfDetector("models\\pedestrians.jpg"));
+            detectors.Add(new SurfDetector("models\\bicycle.jpg"));
+            detectors.Add(new SurfDetector("models\\deer.jpg"));
             detectors.Add(new SurfDetector("models\\slow.jpg"));
         }
 
