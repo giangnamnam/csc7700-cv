@@ -20,6 +20,7 @@ namespace OMS.CVApp.SignDetector
         public override void setAnnotationFile(String f)
         {
             annotation_file = f;
+            Console.WriteLine(f);
         }
 
         // orients the image so that the plane of the sign is parallel to the camera
