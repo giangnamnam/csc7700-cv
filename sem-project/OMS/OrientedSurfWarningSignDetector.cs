@@ -17,7 +17,7 @@ namespace OMS.CVApp.SignDetector
         String annotation_file = "";
         Detector surf = new SurfWarningSignDetector();
 
-        public void setAnnotationFile(String f)
+        public override void setAnnotationFile(String f)
         {
             annotation_file = f;
         }
