@@ -22,7 +22,7 @@ namespace OMS.CVApp
         HomographyMatrix homography = null;
 
         GpuSURFDetector surfGPU;
-        SURFDetector surfCPU = new SURFDetector(500, false);
+        SURFDetector surfCPU;
         VectorOfKeyPoint modelKeyPoints;
         VectorOfKeyPoint observedKeyPoints;
         Matrix<int> indices;
@@ -40,6 +40,8 @@ namespace OMS.CVApp
         GpuBruteForceMatcher<float> matcher_gpu;
 
         public SurfDetector(String model){
+            surfCPU = new SURFDetector(500, false);
+
             Image<Bgr, Byte> color = new Image<Bgr, byte>(model);
             modelImage = color.Convert<Gray, Byte>();
 
@@ -53,7 +55,7 @@ namespace OMS.CVApp
             //for computers with awesome GPUs...
             if (GpuInvoke.HasCuda)
             {
-                surfGPU = new GpuSURFDetector(surfCPU.SURFParams, 0.01f);
+                surfGPU = new GpuSURFDetector(500, 4, 4, false, 0.01f, true);
                 gpuModelImage = new GpuImage<Gray, byte>(modelImage);
                 gpuModelKeyPoints = surfGPU.DetectKeyPointsRaw(gpuModelImage, null);
                 gpuModelDescriptors = surfGPU.ComputeDescriptorsRaw(gpuModelImage, null, gpuModelKeyPoints);
