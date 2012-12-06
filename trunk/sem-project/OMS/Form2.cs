@@ -15,6 +15,7 @@ namespace OMS.CVApp {
     private Dictionary<DetectionAlg, Detector> algToDetector;
     private Dictionary<DetectionAlg, double> algToPrecision;
     private Detector curDetector;
+    private DetectionAlg curAlg;
     private ImgList[] typeToImgList;
     private int imgIndex;
     private ImgList curImgList;
@@ -80,11 +81,11 @@ namespace OMS.CVApp {
 
       algToPrecision = new Dictionary<DetectionAlg, double>() {
         {DetectionAlg.PED_HOG, -1},
-        {DetectionAlg.STOPSIGN_INT_IMG, -1},
+        {DetectionAlg.STOPSIGN_INT_IMG, 35/52d},
         {DetectionAlg.STOPSIGN_OCT, -1},
-        {DetectionAlg.STOPSIGN_SURF, -1},
-        {DetectionAlg.WARN_OSURF, -1},
-        {DetectionAlg.WARN_SURF, -1}
+        {DetectionAlg.STOPSIGN_SURF, 9/52d},
+        {DetectionAlg.WARN_OSURF, 38/61d},
+        {DetectionAlg.WARN_SURF, 26/61d}
       };
 
       imgMain.Image = ImgList.GetImageFromPath("UI\\PickAType.jpg");
@@ -135,6 +136,7 @@ namespace OMS.CVApp {
       DetectionAlg[] algs = typeToAlg[cmbType.SelectedIndex];
       if (algs != null && algs.Length > 0)
         curDetector = algToDetector[algs[cmbAlg.SelectedIndex]];
+      curAlg = algs[cmbAlg.SelectedIndex];
       imgIndex = 0;
       UpdateMainImg();
       //UpdateStats();
@@ -203,9 +205,9 @@ namespace OMS.CVApp {
           else
             lblAvgTime.ForeColor = Color.White;
 
-          if (prevStats.Precision < 0 || curStats.Precision < prevStats.Precision)
+          if (prevStats.Precision < 0 || curStats.Precision > prevStats.Precision)
             lblPrecision.ForeColor = Color.Green;
-          else if (curStats.Precision > prevStats.Precision)
+          else if (curStats.Precision < prevStats.Precision)
             lblPrecision.ForeColor = Color.Red;
           else
             lblPrecision.ForeColor = Color.White;
@@ -281,7 +283,7 @@ namespace OMS.CVApp {
 
       curStats.TotalTime = Math.Round(totalTime.TotalMilliseconds);
       curStats.AvgTime = Math.Round(totalTime.TotalMilliseconds / curImgList.PosFiles.Length, 2);
-      curStats.Precision = algToPrecision[typeToAlg[cmbType.SelectedIndex][cmbAlg.SelectedIndex]];
+      curStats.Precision = Math.Round(algToPrecision[curAlg], 2) * 100;
 
       curStats.Done();
     }
@@ -299,7 +301,7 @@ namespace OMS.CVApp {
         imgMain.Image = curDetector.annotate(curImgList.PosImgs[imgIndex].Copy());
       }
       catch {
-        lblWarning.Text = "Couldn't Find Anything";
+        //lblWarning.Text = "Couldn't Find Anything";
       }
     }
 
