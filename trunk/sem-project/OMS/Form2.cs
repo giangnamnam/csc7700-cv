@@ -69,7 +69,7 @@ namespace OMS.CVApp {
         {DetectionAlg.STOPSIGN_INT_IMG, new IntegralImageStopSignDetector()},
         {DetectionAlg.STOPSIGN_OCT, new OctagonStopSignDetector()},
         {DetectionAlg.STOPSIGN_SURF, new SurfStopSignDetector()},
-        //{DetectionAlg.TEXT_TESSERACT, new TesseractTextDetector()},
+        {DetectionAlg.TEXT_TESSERACT, new TesseractTextDetector()},
         {DetectionAlg.WARN_OSURF, new OrientedSurfWarningSignDetector()},
         {DetectionAlg.WARN_SURF, new SurfWarningSignDetector()},
       };
