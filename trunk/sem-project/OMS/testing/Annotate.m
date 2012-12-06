@@ -1,4 +1,4 @@
-imgFiles = dir('4.jpg');
+imgFiles = dir('*.jpg');
 numPoints = 4;
 
 for i = 1 : size(imgFiles),
