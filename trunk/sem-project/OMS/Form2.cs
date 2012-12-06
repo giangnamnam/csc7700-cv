@@ -206,7 +206,7 @@ namespace OMS.CVApp {
       for (int i = 0; i < curImgList.PosFiles.Length; i++) {
         try {
           start = DateTime.Now;
-          curDetector.setAnnotationFile(curImgList.PosFiles[i]);
+          curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex].Substring(0, curImgList.PosFiles[imgIndex].Length - 4) + "_annotate.txt");
           curDetector.annotate(curImgList.PosImgs[i]);
           totalTime += DateTime.Now.Subtract(start);
           numTestedImages++;
@@ -239,7 +239,7 @@ namespace OMS.CVApp {
 
     void Process() {
       try {
-        curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex]);
+        curDetector.setAnnotationFile(curImgList.PosFiles[imgIndex].Substring(0, curImgList.PosFiles[imgIndex].Length-4)+"_annotate.txt");
         imgMain.Image = curDetector.annotate(curImgList.PosImgs[imgIndex].Copy());
       }
       catch {
