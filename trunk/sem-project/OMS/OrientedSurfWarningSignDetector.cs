@@ -27,7 +27,7 @@ namespace OMS.CVApp.SignDetector
         Image<Bgr, Byte> orient(Image<Bgr, Byte> i)
         {
             if (annotation_file == "")
-                return null;
+                return i;
 
             image = i.Clone();
             List<Point> points = (new ReadAnnotationPoints.AnnotationPoints(annotation_file)).Points;

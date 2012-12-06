@@ -127,6 +127,12 @@ namespace OMS.CVApp
                }
             }
 
+            if (homography != null)
+            {
+                Rectangle[] rect = {modelImage.ROI};
+                return rect.ToArray();
+            }
+
             return null;
         }
 
@@ -147,7 +153,7 @@ namespace OMS.CVApp
                new PointF(rect.Left, rect.Top)};
                 homography.ProjectPoints(pts);
 
-                image.DrawPolyline(Array.ConvertAll<PointF, Point>(pts, Point.Round), true, new Bgr(Color.Red), 5);
+                image.DrawPolyline(Array.ConvertAll<PointF, Point>(pts, Point.Round), true, new Bgr(Color.CornflowerBlue), 3);
             }
 
             //foreach (Rectangle item in items)
