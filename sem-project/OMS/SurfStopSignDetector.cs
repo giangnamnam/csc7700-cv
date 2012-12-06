@@ -147,7 +147,7 @@ namespace OMS.CVApp.SignDetector
             if (items == null)
                 return image;
             foreach (Rectangle item in items)
-                image.Draw(item, new Bgr(Color.CornflowerBlue), 3);
+                image.Draw(item, new Bgr(Color.Orange), 2);
             return image;
         }
     }

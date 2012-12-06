@@ -38,6 +38,15 @@ namespace OMS.CVApp.SignDetector
         public override Image<Bgr, Byte> annotate(Image<Bgr, Byte> i)
         {
             Image<Bgr, Byte> image = i.Clone();
+            /*List<Rectangle> rects = new List<Rectangle>();
+            foreach (Detector d in detectors)
+            {
+                Rectangle[] ra = d.find(image);
+                if(ra != null)
+                    rects.AddRange(ra);
+            }
+            foreach (Rectangle item in rects.ToArray())
+                image.Draw(item, new Bgr(Color.CornflowerBlue), 3);*/
             foreach (Detector d in detectors)
                 image = d.annotate(image);
             return image;

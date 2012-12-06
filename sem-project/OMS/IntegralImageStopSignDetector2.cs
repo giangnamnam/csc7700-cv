@@ -146,8 +146,6 @@ namespace OMS.CVApp.SignDetector
 
         public override Rectangle[] find(Image<Bgr, Byte> orig)
         {
-            Image<Gray, Byte> red = GetRedPixelMask(orig);
-
             // Make square matrix.
             int S;
             if (orig.Rows > orig.Cols)
@@ -162,7 +160,8 @@ namespace OMS.CVApp.SignDetector
             //orig = img.Convert<Bgr, Byte>();
 
             Image<Bgr, Byte> img = orig.Resize(S, S, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-
+            //img = GetRedPixelMaskA(img).Convert<Bgr, Byte>();
+            //img = GetRedPixelMaskB(img).Convert<Bgr, Byte>();
 
             int[] v = new int[img.Rows];
             int i, j; 
@@ -240,15 +239,22 @@ namespace OMS.CVApp.SignDetector
             if (items == null)
                 return img;
             foreach (Rectangle item in items)
-                img.Draw(item, new Bgr(Color.Pink), 5);
+                img.Draw(item, new Bgr(Color.Orange), 3);
             return img.Convert<Bgr, Byte>();
         }
 
         public object Rectangle { get; set; }
 
-        private static Image<Gray, Byte> GetRedPixelMask(Image<Bgr, byte> img)
+        private static Image<Gray, Byte> GetRedPixelMaskA(Image<Bgr, byte> img)
         {
-            /*using (Image<Hsv, Byte> hsv = image.Convert<Hsv, Byte>())
+            img = img.PyrDown().PyrDown().PyrUp().PyrUp();
+            Image<Gray, Byte> img2 = (img[2] - (img[0] + img[1]))*2;
+            return img2;
+        }
+
+        private static Image<Gray, Byte> GetRedPixelMaskB(Image<Bgr, byte> img)
+        {
+            using (Image<Hsv, Byte> hsv = img.Convert<Hsv, Byte>())
             {
                 Image<Gray, Byte>[] channels = hsv.Split();
 
@@ -269,11 +275,7 @@ namespace OMS.CVApp.SignDetector
                     channels[2].Dispose();
                 }
                 return channels[0];
-            }*/
-
-            img = img.PyrDown().PyrDown().PyrUp().PyrUp();
-            Image<Gray, Byte> img2 = img[2] - (img[0] + img[1]);
-            return img2;
+            }
         }
     }
 }
