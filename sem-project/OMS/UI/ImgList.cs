@@ -40,7 +40,7 @@ namespace OMS.UI {
 
     public static Image<Bgr, byte> GetImageFromPath(string relPath) {
       DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
-      di = di.Parent.Parent;
+      //di = di.Parent.Parent;
       return new Image<Bgr, byte>(di.FullName + "\\" + relPath);
     }
   }
