@@ -19,8 +19,8 @@
    \begin{itemize}
     \item Stop-sign detector, using the notion of integral
           images from SURF
-    \item Warning sign detector, using perspective transformation
-          on a model image, then SURF 
+    \item Warning sign detector, using a perspective transformation
+          to transform the image to be parallel to the viewing plane, then SURF 
    \end{itemize} 
  \end{itemize} 
 }
@@ -143,8 +143,9 @@
           on out-of-plane-rotated signs. 
     \item In particular, we assume that we know the perspective
           information of an out-of-plane-rotated sign.  We apply
-          a perspective transform to a model sign, then apply
-          SURF to the two images, then match.
+          a perspective transform to the input image to make the sign
+          upright and parallel to the viewing plane, apply
+          SURF to the image using each model, and match.
   \end{itemize} 
 }
 
@@ -155,7 +156,7 @@
 
 \frame{ \frametitle{Warning Signs}
   \begin{itemize}
-    \item We first hand-annotated $N$ images using a MATLAB code.
+    \item We first hand-annotated $N$=74 images using a MATLAB code.
     \item From this, we extracted a set of $4N$ points which
           give the vertices of the warning sign.  We then applied
           \texttt{getPerspectiveTransform()} on the points, which
