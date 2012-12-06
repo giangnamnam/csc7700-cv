@@ -12,7 +12,7 @@ namespace OMS.UI {
 
     public ImgList(DetectionType type) {
       DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
-      di = di.Parent.Parent;
+      //di = di.Parent.Parent;
       string relPath = "\\testing\\" + DetectionDesc.Type(type);
       PosFiles = Directory.GetFiles(di.FullName + relPath + "\\positive", "*.jpg");
       NegFiles = Directory.GetFiles(di.FullName + relPath + "\\negative", "*.jpg");
