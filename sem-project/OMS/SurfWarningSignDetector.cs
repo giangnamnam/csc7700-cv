@@ -17,11 +17,15 @@ namespace OMS.CVApp.SignDetector
 
         public SurfWarningSignDetector()
         {
-            detectors.Add(new SurfDetector("models\\crosswalk.jpg"));
+            detectors.Add(new SurfDetector("models\\crosswalk2.jpg"));
             detectors.Add(new SurfDetector("models\\pedestrians.jpg"));
             detectors.Add(new SurfDetector("models\\bicycle.jpg"));
             detectors.Add(new SurfDetector("models\\deer.jpg"));
             detectors.Add(new SurfDetector("models\\slow.jpg"));
+            detectors.Add(new SurfDetector("models\\intersection.jpg"));
+            detectors.Add(new SurfDetector("models\\stop_ahead.jpg"));
+            detectors.Add(new SurfDetector("models\\DividedHighwayBegins.jpg"));
+            detectors.Add(new SurfDetector("models\\DividedHighwayEnds.jpg"));
         }
 
         public override Rectangle[] find(Image<Bgr, Byte> image)

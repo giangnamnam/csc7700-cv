@@ -25,7 +25,7 @@ namespace OMS.CVApp.SignDetector
             detector = new SURFDetector(500, false);
 
             
-            Image<Bgr, Byte> stopSignModel = new Image<Bgr, Byte>("stop-sign-model.png");
+            Image<Bgr, Byte> stopSignModel = new Image<Bgr, Byte>("models\\stop-sign-model.png");
             Image<Gray, Byte> redMask = GetRedPixelMask(stopSignModel);
             tracker = new Features2DTracker<float>(detector.DetectFeatures(redMask, null));  
             
