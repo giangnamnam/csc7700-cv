@@ -615,70 +615,76 @@
     <Content Include="testing\stop\positive\WP 20.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\1.JPG">
+    <Content Include="testing\warning\negative\01.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\2.jpg">
+    <Content Include="testing\warning\negative\01_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\3.jpg">
+    <Content Include="testing\warning\negative\02.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\4.JPG">
+    <Content Include="testing\warning\negative\02_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\5.JPG">
+    <Content Include="testing\warning\negative\03.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\6.jpg">
+    <Content Include="testing\warning\negative\03_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\7.jpg">
+    <Content Include="testing\warning\negative\04.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\negative\8.JPG">
+    <Content Include="testing\warning\negative\04_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\01.jpg">
+    <Content Include="testing\warning\negative\05.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\01_annotate.txt">
+    <Content Include="testing\warning\negative\05_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\02.jpg">
+    <Content Include="testing\warning\negative\06.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\02_annotate.txt">
+    <Content Include="testing\warning\negative\06_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\03.jpg">
+    <Content Include="testing\warning\negative\07.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\03_annotate.txt">
+    <Content Include="testing\warning\negative\07_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\04.jpg">
+    <Content Include="testing\warning\negative\14.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\04_annotate.txt">
+    <Content Include="testing\warning\negative\14_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\05.jpg">
+    <Content Include="testing\warning\negative\16.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\05_annotate.txt">
+    <Content Include="testing\warning\negative\16_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\06.jpg">
+    <Content Include="testing\warning\negative\bump.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\06_annotate.txt">
+    <Content Include="testing\warning\negative\bump2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\07.jpg">
+    <Content Include="testing\warning\negative\bump2_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\07_annotate.txt">
+    <Content Include="testing\warning\negative\bump_annotate.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testing\warning\negative\hump.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testing\warning\negative\hump_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\09.jpg">
@@ -717,22 +723,10 @@
     <Content Include="testing\warning\positive\13_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="testing\warning\positive\14.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\14_annotate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="testing\warning\positive\15.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\15_annotate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\16.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\16_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\Bicycle-traffic-warning-sign.jpg">
@@ -751,18 +745,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\bike_annotate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\bump.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\bump2.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\bump2_annotate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\bump_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\deer.jpg">
@@ -847,12 +829,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\div_annotate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\hump.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testing\warning\positive\hump_annotate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="testing\warning\positive\intersect.jpg">
