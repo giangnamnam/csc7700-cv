@@ -132,6 +132,10 @@ namespace OMS.CVApp {
 
       if (homography != null) {  //draw a rectangle along the projected model
         Rectangle rect = modelImage.ROI;
+
+        if (rect.Width * rect.Height < 10000)
+          return image;
+
         PointF[] pts = new PointF[] { 
                new PointF(rect.Left, rect.Bottom),
                new PointF(rect.Right, rect.Bottom),
@@ -140,6 +144,8 @@ namespace OMS.CVApp {
         homography.ProjectPoints(pts);
 
         image.DrawPolyline(Array.ConvertAll<PointF, Point>(pts, Point.Round), true, new Bgr(Color.CornflowerBlue), 3);
+
+        //image.Draw(rect, new Bgr(Color.CornflowerBlue), 3);
       }
 
       //foreach (Rectangle item in items)
