@@ -28,10 +28,10 @@ namespace OMS.CVApp.SignDetector {
       PointF[] src = new PointF[4];
       PointF[] des = new PointF[4];
 
-      src[0] = new PointF(10, 200f);
-      src[1] = new PointF(200, 10f);
-      src[2] = new PointF(380, 200f);
-      src[3] = new PointF(200, 380f);
+      src[0] = new PointF(30, 200f);
+      src[1] = new PointF(200, 30f);
+      src[2] = new PointF(370, 200f);
+      src[3] = new PointF(200, 370f);
 
       for (int x = 0; x < 4; x++)
         des[x] = points[x];
